@@ -3,7 +3,7 @@ package at.technikum.apps.mtcg;
 import at.technikum.server.http.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CurlTest {
 

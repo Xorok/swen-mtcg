@@ -1,9 +1,6 @@
-CREATE DATABASE mctg_db;
-
-\connect mctg_db;
-
 CREATE TABLE u_user (
-    u_username VARCHAR(255) PRIMARY KEY,
+    u_id UUID PRIMARY KEY,
+    u_username VARCHAR(255) NOT NULL UNIQUE,
     u_pass_hash VARCHAR(128) NOT NULL, /* salted sha-512 in hex */
     u_coins INTEGER NOT NULL CHECK (u_coins >= 0) DEFAULT 20,
     u_elo INTEGER NOT NULL DEFAULT 100
@@ -23,15 +20,15 @@ CREATE TABLE c_card (
     c_damage FLOAT NOT NULL,
     c_ct_type VARCHAR(255) NOT NULL REFERENCES ct_card_type(ct_name),
     c_ce_element VARCHAR(255) NOT NULL REFERENCES ce_card_element(ce_name),
-    c_u_owner VARCHAR(255) NULL REFERENCES u_user(u_username)
+    c_u_owner UUID NULL REFERENCES u_user(u_id)
 );
 
 CREATE TABLE d_deck (
-    d_u_owner VARCHAR(255) PRIMARY KEY REFERENCES u_user(u_username)
+    d_u_owner UUID PRIMARY KEY REFERENCES u_user(u_id)
 );
 
 CREATE TABLE dc_deck_card (
-    dc_d_deck VARCHAR(255) PRIMARY KEY REFERENCES d_deck(d_u_owner),
+    dc_d_deck UUID PRIMARY KEY REFERENCES d_deck(d_u_owner),
     dc_c_card UUID REFERENCES c_card(c_id)
 );
 

@@ -1,39 +1,50 @@
 package at.technikum.apps.mtcg;
 
 import at.technikum.apps.mtcg.controller.Controller;
-import at.technikum.apps.mtcg.controller.UserController;
 import at.technikum.server.ServerApplication;
 import at.technikum.server.http.HttpContentType;
 import at.technikum.server.http.HttpStatus;
 import at.technikum.server.http.Request;
 import at.technikum.server.http.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MtcgApp implements ServerApplication {
 
-    private List<Controller> controllers = new ArrayList<>();
+    private final List<Controller> controllers;
 
     public MtcgApp() {
-        controllers.add(new UserController());
+        Injector injector = new Injector();
+
+        this.controllers = injector.createController();
     }
 
     @Override
     public Response handle(Request request) {
 
-        for (Controller controller: controllers) {
+        for (Controller controller : controllers) {
             if (!controller.supports(request.getRoute())) {
                 continue;
             }
 
-            return controller.handle(request);
+            // THOUGHT: implement this idea
+            try {
+                return controller.handle(request);
+            /*
+            // HttpException doesn't exists yet
+            } catch (HttpException e) {
+                // return e.getHttpStatus() response
+            }
+            */
+            } catch (Exception e) {
+                // return 500 Internal Server Error
+            }
         }
 
         Response response = new Response();
         response.setStatus(HttpStatus.NOT_FOUND);
-        response.setContentType(HttpContentType.TEXT_PLAIN);
-        response.setBody("Route " + request.getRoute() + " not found in app!");
+        response.setContentType(HttpContentType.APPLICATION_JSON);
+        response.setBody("Route not found!");
 
         return response;
     }

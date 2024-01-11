@@ -5,8 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/sql/mtcg_delete_db_contents.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/SessionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/UserLogin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exceptions/InvalidCredentialsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exceptions/UserAlreadyExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exceptions/UserCreationFailedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/MemoryUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/repository/MemoryUserRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/tasks_app.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/tasks_app.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/tasks_app.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_create_db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/display/DisplayApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/MtcgApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/MtcgApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/PackageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/Injector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/TaskApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/controller/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/controller/TaskController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/controller/TimeoutController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/data/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/entity/Task.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/repository/DatabaseTaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/repository/MemoryTaskRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/repository/TaskRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/task/service/TaskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/server/http/HttpStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/server/http/HttpStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/CurlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/CurlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/task/repository/MemoryTaskRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/task/service/TaskServiceTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +62,17 @@
       </list>
     </option>
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -40,21 +89,24 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Main.executor": "Run",
+    "Maven.server-application [clean].executor": "Run",
+    "Maven.server-application [compile].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Marvin Kosmider/FH Technikum Wien/Lehre/X 2023 WS/Software Lifecycle Management/coding/calculator",
+    "last_opened_file_path": "D:/Users/David/Documents/IdeaProjects/SWEN1-Semesterprojekt/sql",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Problems",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -63,6 +115,20 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Users\David\Documents\IdeaProjects\SWEN1-Semesterprojekt\sql" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="at.technikum.apps.mctg" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="at.technikum.apps.mtcg.exceptions" />
+      <recent name="at.technikum.apps.mtcg.entity" />
+      <recent name="at.technikum.apps.mtcg.service" />
+      <recent name="at.technikum.apps.mtcg.controller" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="at.technikum.Main" />
