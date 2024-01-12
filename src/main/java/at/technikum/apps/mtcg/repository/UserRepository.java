@@ -1,7 +1,7 @@
 package at.technikum.apps.mtcg.repository;
 
 import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.exceptions.UserCreationFailedException;
+import at.technikum.apps.mtcg.exception.UserCreationFailedException;
 
 import java.util.Optional;
 

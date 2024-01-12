@@ -1,7 +1,7 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.entity.UserLogin;
-import at.technikum.apps.mtcg.exceptions.InvalidCredentialsException;
+import at.technikum.apps.mtcg.dto.UserLogin;
+import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
 import at.technikum.apps.mtcg.service.SessionService;
 import at.technikum.server.http.HttpContentType;
 import at.technikum.server.http.HttpStatus;

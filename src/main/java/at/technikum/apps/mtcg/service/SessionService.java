@@ -1,8 +1,8 @@
 package at.technikum.apps.mtcg.service;
 
+import at.technikum.apps.mtcg.dto.UserLogin;
 import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.entity.UserLogin;
-import at.technikum.apps.mtcg.exceptions.InvalidCredentialsException;
+import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
 import at.technikum.apps.mtcg.repository.UserRepository;
 
 import java.util.Optional;

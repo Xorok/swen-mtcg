@@ -1,5 +1,7 @@
 package at.technikum.apps.mtcg.entity;
 
+import at.technikum.apps.mtcg.dto.UserLogin;
+
 import java.util.UUID;
 
 public class User {

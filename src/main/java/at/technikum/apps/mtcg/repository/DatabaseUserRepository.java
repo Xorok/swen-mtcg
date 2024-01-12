@@ -2,7 +2,7 @@ package at.technikum.apps.mtcg.repository;
 
 import at.technikum.apps.mtcg.data.Database;
 import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.exceptions.UserCreationFailedException;
+import at.technikum.apps.mtcg.exception.UserCreationFailedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

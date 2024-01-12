@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.entity.UserLogin;
+import at.technikum.apps.mtcg.dto.UserLogin;
 import at.technikum.apps.mtcg.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

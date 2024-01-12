@@ -1,9 +1,9 @@
 package at.technikum.apps.mtcg.service;
 
+import at.technikum.apps.mtcg.dto.UserLogin;
 import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.entity.UserLogin;
-import at.technikum.apps.mtcg.exceptions.UserAlreadyExistsException;
-import at.technikum.apps.mtcg.exceptions.UserCreationFailedException;
+import at.technikum.apps.mtcg.exception.UserAlreadyExistsException;
+import at.technikum.apps.mtcg.exception.UserCreationFailedException;
 import at.technikum.apps.mtcg.repository.UserRepository;
 
 import java.util.Optional;
