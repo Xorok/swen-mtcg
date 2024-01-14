@@ -47,6 +47,7 @@ public class SessionController extends Controller {
         try {
             token = sessionService.getToken(userLogin);
         } catch (InvalidCredentialsException e) {
+            e.printStackTrace();
             return status(HttpStatus.UNAUTHORIZED);
         }
 

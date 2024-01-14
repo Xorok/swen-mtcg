@@ -15,7 +15,11 @@ public class DatabaseUserRepository implements UserRepository {
     private final String CREATE_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_coins, u_elo) VALUES(?::uuid, ?, ?, ?, ?);";
     private final String FIND_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
 
-    private final Database database = new Database();
+    private final Database database;
+
+    public DatabaseUserRepository(Database database) {
+        this.database = database;
+    }
 
     @Override
     public User create(User user) throws UserCreationFailedException {
@@ -31,7 +35,6 @@ public class DatabaseUserRepository implements UserRepository {
 
             pstmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new UserCreationFailedException(e.getMessage());
         }
 

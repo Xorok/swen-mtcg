@@ -13,6 +13,8 @@ public class Request {
     // application/json, text/plain
     private String contentType;
 
+    private String authorizationHeader;
+
     // 0, 17
     private int contentLength;
 
@@ -49,6 +51,14 @@ public class Request {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getAuthorizationHeader() {
+        return authorizationHeader;
+    }
+
+    public void setAuthorizationHeader(String authorizationHeader) {
+        this.authorizationHeader = authorizationHeader;
     }
 
     public int getContentLength() {

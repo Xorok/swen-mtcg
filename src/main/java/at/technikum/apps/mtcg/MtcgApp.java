@@ -37,6 +37,7 @@ public class MtcgApp implements ServerApplication {
             }
             */
             } catch (Exception e) {
+                e.printStackTrace();
                 // return 500 Internal Server Error
             }
         }

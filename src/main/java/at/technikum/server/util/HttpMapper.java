@@ -18,9 +18,12 @@ public class HttpMapper {
         request.setRoute(getRoute(httpRequest));
         request.setHost(getHttpHeader("Host", httpRequest));
 
+        String authorizationHeader = getHttpHeader("Authorization", httpRequest);
+        request.setAuthorizationHeader(authorizationHeader);
+
         // THOUGHT: don't do the content parsing in this method
         String contentLengthHeader = getHttpHeader("Content-Length", httpRequest);
-        if (null == contentLengthHeader) {
+        if (contentLengthHeader == null) {
             return request;
         }
 

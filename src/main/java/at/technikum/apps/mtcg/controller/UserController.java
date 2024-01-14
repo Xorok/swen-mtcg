@@ -69,14 +69,16 @@ public class UserController extends Controller {
             throw new RuntimeException(e); // TODO: Return error response
         }
 
-        // TODO: Check requirements - valid fields, user already exists in DB, DB save successful?
+        // TODO: Check requirements - valid fields - username not null, no spaces, etc: [a-zA-Z0-9]{1,40}
         // TODO: Add password hashing
         User user;
         try {
             user = userService.create(userLogin);
         } catch (UserAlreadyExistsException e) {
+            e.printStackTrace();
             return status(HttpStatus.CONFLICT); // TODO: Add message
         } catch (UserCreationFailedException e) {
+            e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
