@@ -1,84 +1,74 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.dto.CardDto;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.exception.InvalidCardException;
-import at.technikum.apps.mtcg.exception.InvalidPackageSizeException;
+import at.technikum.apps.mtcg.exception.InvalidUserException;
+import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
+import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
 import at.technikum.apps.mtcg.service.PackageService;
 import at.technikum.apps.mtcg.service.SessionService;
-import at.technikum.apps.mtcg.service.UserService;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.server.http.HttpStatus;
 import at.technikum.server.http.Request;
 import at.technikum.server.http.Response;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Optional;
 
-public class PackageController extends Controller {
+public class TransactionController extends Controller {
     private final PackageService packageService;
     private final SessionService sessionService;
-    private final UserService userService;
     private final InputValidator inputValidator;
     private final HttpUtils httpUtils;
 
-    public PackageController(PackageService packageService, SessionService sessionService, UserService userService, InputValidator inputValidator, HttpUtils httpUtils) {
+    public TransactionController(PackageService packageService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
         this.packageService = packageService;
         this.sessionService = sessionService;
-        this.userService = userService;
         this.inputValidator = inputValidator;
         this.httpUtils = httpUtils;
     }
 
     @Override
     public boolean supports(String route) {
-        return route.equals("/packages");
+        return route.equals("/transactions/packages");
     }
 
     @Override
     public Response handle(Request request) {
         if (request.getMethod().equals("POST")) {
-            return createPackage(request);
+            return acquirePackage(request);
         }
         return status(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    public Response createPackage(Request request) {
+    public Response acquirePackage(Request request) {
         if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
             return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
         }
 
-        Optional<User> user = sessionService
+        Optional<User> userOptional = sessionService
                 .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
-        if (user.isEmpty()) {
+        if (userOptional.isEmpty()) {
             return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
-        } else if (!userService.isAdmin(user.get())) {
-            return status(HttpStatus.FORBIDDEN, "User does not have admin rights!");
         }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        // TODO: Check if required args are set in body
-        CardDto[] newCards;
-        try {
-            newCards = objectMapper.readValue(request.getBody(), CardDto[].class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return status(HttpStatus.BAD_REQUEST, "There is an error in the submitted JSON!");
-        }
+        User user = userOptional.get();
 
         try {
-            packageService.createPackage(newCards);
-        } catch (InvalidPackageSizeException | InvalidCardException e) {
+            packageService.buyPackage(user);
+        } catch (InvalidUserException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (NotEnoughCoinsException e) {
+            e.printStackTrace();
+            return status(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (NoPackageAvailableException e) {
+            e.printStackTrace();
+            return status(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
-        return status(HttpStatus.OK, "Package and cards successfully created!");
+        return status(HttpStatus.OK, "A package has been successfully bought!");
     }
 }

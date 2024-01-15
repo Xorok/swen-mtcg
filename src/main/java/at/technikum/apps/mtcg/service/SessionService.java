@@ -1,35 +1,106 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.dto.UserLogin;
+import at.technikum.apps.mtcg.dto.UserDto;
 import at.technikum.apps.mtcg.entity.User;
+import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
+import at.technikum.apps.mtcg.exception.SessionAlreadyExistsException;
 import at.technikum.apps.mtcg.repository.UserRepository;
+import at.technikum.apps.mtcg.util.InputValidator;
+import at.technikum.apps.mtcg.util.PasswordHashUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class SessionService {
 
     private final UserRepository userRepository;
+    private final InputValidator inputValidator;
+    private final PasswordHashUtils passwordHashUtils;
 
-    public SessionService(UserRepository userRepository) {
+    private final HashMap<String, User> activeSessions;
+
+    public SessionService(UserRepository userRepository, InputValidator inputValidator, PasswordHashUtils passwordHashUtils) {
         this.userRepository = userRepository;
+        this.inputValidator = inputValidator;
+        this.passwordHashUtils = passwordHashUtils;
+
+        this.activeSessions = new HashMap<>();
     }
 
-    public String getToken(UserLogin userLogin) throws InvalidCredentialsException {
-        Optional<User> user = userRepository.find(userLogin.getUsername());
-        if (user.isEmpty() || !validateCredentials(user.get(), userLogin)) {
+    public String login(UserDto userDto) throws InvalidCredentialsException, SessionAlreadyExistsException, InternalServerException {
+        // Check if submitted username & password even fulfill requirements
+        if (!inputValidator.username(userDto.getUsername()) ||
+                !inputValidator.password(userDto.getPassword())) {
             throw new InvalidCredentialsException("Invalid username/password provided!");
         }
-        return generateToken(user.get());
+
+        // Get user from database
+        Optional<User> userOptional = userRepository.find(userDto.getUsername());
+        if (userOptional.isEmpty()) {
+            throw new InvalidCredentialsException("User doesn't exist!");
+        }
+        User user = userOptional.get();
+
+        // Check if user is already logged in
+        if (activeSessions.containsValue(user)) {
+            throw new SessionAlreadyExistsException("User is already logged in!");
+        }
+
+        // Check if credentials are correct
+        boolean credentialsCorr;
+        try {
+            credentialsCorr = passwordHashUtils.verifyPassword(
+                    userDto.getPassword(),
+                    user.getPasswordHash(),
+                    user.getPasswordSalt());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalServerException("Password hashing failed!");
+        }
+        if (!credentialsCorr) {
+            throw new InvalidCredentialsException("Wrong login credentials!");
+        }
+
+        // Get new session token
+        return generateToken(user);
     }
 
-    private boolean validateCredentials(User user, UserLogin userLogin) {
-        return user.getUsername().equals(userLogin.getUsername()) &&
-                user.getPasswordHash().equals(userLogin.getPassword());
+    public Optional<User> checkSessionToken(String token) {
+        if (activeSessions.containsKey(token)) {
+            return Optional.of(activeSessions.get(token));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public void updateSessionUser(User user) {
+        String key = getKeyByValue(activeSessions, user);
+        if (key != null) {
+            activeSessions.put(key, user);
+        }
+    }
+
+    private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     private String generateToken(User user) {
-        // TODO: Real session token - Generate UUID that expires for each login
-        return user.getUsername() + "-mtcgToken";
+        // TODO: Optional - Real session token - Generate UUID
+        // TODO: Optional - Add logout & timeout of session?
+
+        // Generate token
+        String token = user.getUsername() + "-mtcgToken";
+        // Add token to active sessions list
+        activeSessions.put(token, user);
+
+        return token;
     }
 }

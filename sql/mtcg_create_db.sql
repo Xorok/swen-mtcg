@@ -2,9 +2,10 @@ CREATE TABLE u_user
 (
     u_id        UUID PRIMARY KEY,
     u_username  VARCHAR(255) NOT NULL UNIQUE,
-    u_pass_hash VARCHAR(128) NOT NULL, /* salted sha-512 in hex */
-    u_coins     INTEGER      NOT NULL CHECK (u_coins >= 0) DEFAULT 20,
-    u_elo       INTEGER      NOT NULL                      DEFAULT 100
+    u_pass_hash VARCHAR(255) NOT NULL,
+    u_pass_salt BYTEA        NOT NULL,
+    u_coins     INTEGER      NOT NULL CHECK (u_coins >= 0),
+    u_elo       INTEGER      NOT NULL
 );
 
 CREATE TABLE ce_card_element

@@ -1,7 +1,9 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.dto.UserLogin;
+import at.technikum.apps.mtcg.dto.UserDto;
+import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
+import at.technikum.apps.mtcg.exception.SessionAlreadyExistsException;
 import at.technikum.apps.mtcg.service.SessionService;
 import at.technikum.server.http.HttpContentType;
 import at.technikum.server.http.HttpStatus;
@@ -19,40 +21,44 @@ public class SessionController extends Controller {
 
     @Override
     public boolean supports(String route) {
-        return route.startsWith("/sessions");
+        return route.equals("/sessions");
     }
 
     @Override
     public Response handle(Request request) {
-        if (request.getRoute().equals("/sessions")) {
-            if (request.getMethod().equals("POST")) {
-                return loginUser(request);
-            }
-            return status(HttpStatus.METHOD_NOT_ALLOWED);
+        if (request.getMethod().equals("POST")) {
+            return loginUser(request);
         }
-        return status(HttpStatus.NOT_FOUND);
+        return status(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     public Response loginUser(Request request) {
         ObjectMapper objectMapper = new ObjectMapper();
         // TODO: Check if required args are set in body
-        UserLogin userLogin = null;
+        UserDto userDto = null;
         try {
-            userLogin = objectMapper.readValue(request.getBody(), UserLogin.class);
+            userDto = objectMapper.readValue(request.getBody(), UserDto.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e); // TODO: Return error response
+            e.printStackTrace();
+            return status(HttpStatus.BAD_REQUEST, "There is an error in the submitted JSON!");
         }
 
         String token;
         try {
-            token = sessionService.getToken(userLogin);
+            token = sessionService.login(userDto);
         } catch (InvalidCredentialsException e) {
             e.printStackTrace();
-            return status(HttpStatus.UNAUTHORIZED);
+            return status(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (SessionAlreadyExistsException e) {
+            e.printStackTrace();
+            return status(HttpStatus.CONFLICT, e.getMessage());
+        } catch (InternalServerException e) {
+            e.printStackTrace();
+            return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
         Response response = new Response();
-        response.setStatus(HttpStatus.CREATED);
+        response.setStatus(HttpStatus.OK);
         response.setContentType(HttpContentType.APPLICATION_JSON);
         response.setBody(token);
 

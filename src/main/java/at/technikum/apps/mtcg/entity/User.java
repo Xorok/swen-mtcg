@@ -1,46 +1,31 @@
 package at.technikum.apps.mtcg.entity;
 
-import at.technikum.apps.mtcg.dto.UserLogin;
-
+import java.util.Objects;
 import java.util.UUID;
 
 public class User {
-
-    private UUID uuid;
-
+    private UUID userId;
     private String username;
-
     private String passwordHash;
-
+    private byte[] passwordSalt;
     private int coins;
-
     private int elo;
 
-    public User(UserLogin userLogin) {
-        // TODO: Check requirements
-        username = userLogin.getUsername();
-        // TODO: Add hashing
-        passwordHash = userLogin.getPassword();
-        // TODO: Check for collisions
-        uuid = UUID.randomUUID();
-        coins = 20;
-        elo = 100;
-    }
-
-    public User(UUID uuid, String username, String passwordHash, int coins, int elo) {
-        this.uuid = uuid;
+    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, int elo) {
+        this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
         this.coins = coins;
         this.elo = elo;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -59,6 +44,14 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
     public int getCoins() {
         return coins;
     }
@@ -73,5 +66,18 @@ public class User {
 
     public void setElo(int elo) {
         this.elo = elo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getUserId(), user.getUserId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId());
     }
 }

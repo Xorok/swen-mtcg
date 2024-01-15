@@ -1,7 +1,5 @@
 package at.technikum.apps.mtcg.entity;
 
-import at.technikum.apps.mtcg.dto.CardCreation;
-
 import java.util.UUID;
 
 public class Card {
@@ -42,23 +40,6 @@ public class Card {
     private Type type;
     private Element element;
     private UUID owner;
-
-    public Card(CardCreation newCard) {
-        Card.Element element = Card.Element.NORMAL;
-        if (newCard.getName().contains("Fire")) {
-            element = Card.Element.FIRE;
-        } else if (newCard.getName().contains("Water")) {
-            element = Card.Element.WATER;
-        }
-
-        // TODO: Handle exceptions, check values
-        this.id = UUID.fromString(newCard.getId());
-        this.name = newCard.getName();
-        this.damage = Double.parseDouble(newCard.getDamage());
-        this.type = newCard.getName().contains("Spell") ? Card.Type.SPELL : Card.Type.MONSTER;
-        this.element = element;
-        this.owner = null;
-    }
 
     public Card(UUID id, String name, Double damage, Type type, Element element, UUID owner) {
         this.id = id;

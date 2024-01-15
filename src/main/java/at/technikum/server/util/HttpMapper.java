@@ -40,7 +40,6 @@ public class HttpMapper {
     }
 
     public static String toResponseString(Response response) {
-
         return "HTTP/1.1 " + response.getStatusCode() + " " + response.getStatusMessage() + "\r\n" +
                 "Content-Type: " + response.getContentType() + "\r\n" +
                 "Content-Length: " + response.getBody().length() + "\r\n" +
