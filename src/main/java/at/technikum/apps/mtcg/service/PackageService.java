@@ -3,22 +3,18 @@ package at.technikum.apps.mtcg.service;
 import at.technikum.apps.mtcg.converter.CardDtoToCardConverter;
 import at.technikum.apps.mtcg.dto.CardDto;
 import at.technikum.apps.mtcg.entity.Card;
-import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.exception.*;
+import at.technikum.apps.mtcg.exception.InternalServerException;
+import at.technikum.apps.mtcg.exception.InvalidCardException;
+import at.technikum.apps.mtcg.exception.InvalidPackageSizeException;
 import at.technikum.apps.mtcg.repository.CardRepository;
-import at.technikum.apps.mtcg.repository.UserRepository;
 
 public class PackageService {
 
     private final CardRepository cardRepository;
-    private final UserRepository userRepository;
-    private final SessionService sessionService;
     private final CardDtoToCardConverter cardConverter;
 
-    public PackageService(CardRepository cardRepository, UserRepository userRepository, SessionService sessionService, CardDtoToCardConverter cardConverter) {
+    public PackageService(CardRepository cardRepository, CardDtoToCardConverter cardConverter) {
         this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
-        this.sessionService = sessionService;
         this.cardConverter = cardConverter;
     }
 
@@ -34,14 +30,5 @@ public class PackageService {
         }
 
         cardRepository.createAll(cards);
-    }
-
-    public synchronized void buyPackage(User user) throws InvalidUserException, NotEnoughCoinsException, NoPackageAvailableException, InternalServerException {
-        if (user.getCoins() < 5) {
-            throw new NotEnoughCoinsException("User does not have enough money for buying a card package!");
-        }
-
-        User updatedUser = cardRepository.buyPackage(user);
-        sessionService.updateSessionUser(updatedUser);
     }
 }

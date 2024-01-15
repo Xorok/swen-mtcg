@@ -11,8 +11,12 @@ import at.technikum.apps.mtcg.util.SQLCloseable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class DatabaseCardRepository implements CardRepository {
 
@@ -24,6 +28,7 @@ public class DatabaseCardRepository implements CardRepository {
             "               ORDER BY c_id" +
             "               LIMIT 5);";
     private final String REDUCE_COINS_SQL = "UPDATE u_user SET u_coins = u_coins-5 WHERE u_id = ?::uuid;";
+    private final String SELECT_CARDS_SQL = "SELECT * FROM c_card WHERE c_u_owner = ?::uuid;";
 
     private final Database database;
     private final UserRepository userRepository;
@@ -95,5 +100,31 @@ public class DatabaseCardRepository implements CardRepository {
 
         dbUser.setCoins(dbUser.getCoins() - 5);
         return dbUser;
+    }
+
+    public List<Card> getCards(User user) throws InternalServerException {
+        List<Card> cards = new ArrayList<>();
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(SELECT_CARDS_SQL);
+        ) {
+            pstmt.setObject(1, user.getUserId());
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                cards.add(new Card(
+                        resultSet.getObject("c_id", UUID.class),
+                        resultSet.getString("c_name"),
+                        resultSet.getDouble("c_damage"),
+                        Card.Type.mapFrom(resultSet.getString("c_ct_type")),
+                        Card.Element.mapFrom(resultSet.getString("c_ce_element")),
+                        resultSet.getObject("c_u_owner", UUID.class)
+                ));
+            }
+            return cards;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred while fetching the cards!");
+        }
     }
 }

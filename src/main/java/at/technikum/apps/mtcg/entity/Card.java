@@ -16,6 +16,14 @@ public class Card {
         public String getValue() {
             return value;
         }
+
+        public static Type mapFrom(String value) {
+            return switch (value) {
+                case "Monster" -> MONSTER;
+                case "Spell" -> SPELL;
+                default -> throw new RuntimeException("No Type mapping for \"" + value + "\"!");
+            };
+        }
     }
 
     public enum Element {
@@ -31,6 +39,15 @@ public class Card {
 
         public String getValue() {
             return value;
+        }
+
+        public static Element mapFrom(String value) {
+            return switch (value) {
+                case "Water" -> WATER;
+                case "Fire" -> FIRE;
+                case "Normal" -> NORMAL;
+                default -> throw new RuntimeException("No Element mapping for \"" + value + "\"!");
+            };
         }
     }
 

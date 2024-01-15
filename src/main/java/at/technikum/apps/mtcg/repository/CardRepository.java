@@ -7,8 +7,12 @@ import at.technikum.apps.mtcg.exception.InvalidUserException;
 import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
 import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
 
+import java.util.List;
+
 public interface CardRepository {
     void createAll(Card[] cards) throws InternalServerException;
 
     User buyPackage(User user) throws InvalidUserException, NotEnoughCoinsException, NoPackageAvailableException, InternalServerException;
+
+    List<Card> getCards(User user) throws InternalServerException;
 }

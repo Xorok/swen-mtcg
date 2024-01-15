@@ -5,46 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sql/mtcg_delete_db_tables.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/TransactionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardDtoToCardConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/Converter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InternalServerException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidCardException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidUserException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/NoPackageAvailableException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/NonConformingCredentialsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/NotEnoughCoinsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/SessionAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/HttpUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/InputValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/PasswordHashUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/SQLCloseable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/CardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/CardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" beforeDir="false" afterPath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_create_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_create_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_delete_db_contents.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_reset_db.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/PackageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/PackageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/SessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/SessionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/CardCreation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/CardDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/UserLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/TransactionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/CardCreationFailedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidSessionTokenException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/UserCreationFailedException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/PackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/PackageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/server/http/HttpStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/server/http/HttpStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/server/util/HttpMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/server/util/HttpMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,11 +92,11 @@
       <recent name="at.technikum.apps.mctg" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="at.technikum.apps.mtcg.exception" />
-      <recent name="at.technikum.apps.mtcg.controller" />
-      <recent name="at.technikum.apps.mtcg.repository" />
-      <recent name="at.technikum.apps.mtcg.dto" />
+      <recent name="at.technikum.apps.mtcg.converter" />
       <recent name="at.technikum.apps.mtcg.service" />
+      <recent name="at.technikum.apps.mtcg.controller" />
+      <recent name="at.technikum.apps.mtcg.exception" />
+      <recent name="at.technikum.apps.mtcg.repository" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -195,7 +165,7 @@
       <workItem from="1704805166579" duration="1376000" />
       <workItem from="1704807204696" duration="10330000" />
       <workItem from="1704921187896" duration="1876000" />
-      <workItem from="1705320505431" duration="12874000" />
+      <workItem from="1705320505431" duration="16118000" />
     </task>
     <servers />
   </component>

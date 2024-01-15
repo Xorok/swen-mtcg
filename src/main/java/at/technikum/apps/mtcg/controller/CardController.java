@@ -1,28 +1,27 @@
 package at.technikum.apps.mtcg.controller;
 
+import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.exception.InvalidUserException;
-import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
-import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
+import at.technikum.apps.mtcg.service.CardService;
 import at.technikum.apps.mtcg.service.SessionService;
-import at.technikum.apps.mtcg.service.TransactionService;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.server.http.HttpStatus;
 import at.technikum.server.http.Request;
 import at.technikum.server.http.Response;
 
+import java.util.List;
 import java.util.Optional;
 
-public class TransactionController extends Controller {
-    private final TransactionService transactionService;
+public class CardController extends Controller {
+    private final CardService cardService;
     private final SessionService sessionService;
     private final InputValidator inputValidator;
     private final HttpUtils httpUtils;
 
-    public TransactionController(TransactionService transactionService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
-        this.transactionService = transactionService;
+    public CardController(CardService cardService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
+        this.cardService = cardService;
         this.sessionService = sessionService;
         this.inputValidator = inputValidator;
         this.httpUtils = httpUtils;
@@ -30,45 +29,36 @@ public class TransactionController extends Controller {
 
     @Override
     public boolean supports(String route) {
-        return route.equals("/transactions/packages");
+        return route.equals("/cards");
     }
 
     @Override
     public Response handle(Request request) {
-        if (request.getMethod().equals("POST")) {
-            return acquirePackage(request);
+        if (request.getMethod().equals("GET")) {
+            return getCards(request);
         }
         return status(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    public Response acquirePackage(Request request) {
+    public Response getCards(Request request) {
         if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
             return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
         }
 
-        Optional<User> userOptional = sessionService
+        Optional<User> user = sessionService
                 .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
-        if (userOptional.isEmpty()) {
+        if (user.isEmpty()) {
             return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
         }
-        User user = userOptional.get();
 
+        List<Card> cards;
         try {
-            transactionService.buyPackage(user);
-        } catch (InvalidUserException e) {
-            e.printStackTrace();
-            return status(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (NotEnoughCoinsException e) {
-            e.printStackTrace();
-            return status(HttpStatus.FORBIDDEN, e.getMessage());
-        } catch (NoPackageAvailableException e) {
-            e.printStackTrace();
-            return status(HttpStatus.NOT_FOUND, e.getMessage());
+            cards = cardService.getCards(user.get());
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
-        return status(HttpStatus.OK, "A package has been successfully bought!");
+        return json(cards.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK, cards);
     }
 }

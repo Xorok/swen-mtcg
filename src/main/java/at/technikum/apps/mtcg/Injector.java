@@ -7,9 +7,7 @@ import at.technikum.apps.mtcg.repository.CardRepository;
 import at.technikum.apps.mtcg.repository.DatabaseCardRepository;
 import at.technikum.apps.mtcg.repository.DatabaseUserRepository;
 import at.technikum.apps.mtcg.repository.UserRepository;
-import at.technikum.apps.mtcg.service.PackageService;
-import at.technikum.apps.mtcg.service.SessionService;
-import at.technikum.apps.mtcg.service.UserService;
+import at.technikum.apps.mtcg.service.*;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.apps.mtcg.util.PasswordHashUtils;
@@ -47,11 +45,16 @@ public class Injector {
 
         // Packages: /packages
         CardDtoToCardConverter cardConverter = new CardDtoToCardConverter(inputValidator);
-        PackageService packageService = new PackageService(cardRepository, userRepository, sessionService, cardConverter);
+        PackageService packageService = new PackageService(cardRepository, cardConverter);
         controllerList.add(new PackageController(packageService, sessionService, userService, inputValidator, httpUtils));
 
         // Transactions: /transactions
-        controllerList.add(new TransactionController(packageService, sessionService, inputValidator, httpUtils));
+        TransactionService transactionService = new TransactionService(cardRepository, sessionService);
+        controllerList.add(new TransactionController(transactionService, sessionService, inputValidator, httpUtils));
+
+        // Cards: /cards
+        CardService cardService = new CardService(cardRepository);
+        controllerList.add(new CardController(cardService, sessionService, inputValidator, httpUtils));
 
         return controllerList;
     }
