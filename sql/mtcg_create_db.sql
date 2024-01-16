@@ -5,7 +5,10 @@ CREATE TABLE u_user
     u_pass_hash VARCHAR(255) NOT NULL,
     u_pass_salt BYTEA        NOT NULL,
     u_coins     INTEGER      NOT NULL CHECK (u_coins >= 0),
-    u_elo       INTEGER      NOT NULL
+    u_elo       INTEGER      NOT NULL,
+    u_name      VARCHAR(255) NULL,
+    u_bio       VARCHAR(255) NULL,
+    u_image     VARCHAR(255) NULL
 );
 
 CREATE TABLE ce_card_element
@@ -47,10 +50,10 @@ CREATE TABLE t_trade
 
 -- Add default card & element types
 INSERT INTO ct_card_type(ct_name)
-VALUES ('Monster'),
-       ('Spell');
+VALUES ('MONSTER'),
+       ('SPELL');
 
 INSERT INTO ce_card_element(ce_name)
-VALUES ('Water'),
-       ('Fire'),
-       ('Normal');
+VALUES ('WATER'),
+       ('FIRE'),
+       ('NORMAL');

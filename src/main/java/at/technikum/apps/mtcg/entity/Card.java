@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Card {
     public enum Type {
-        MONSTER("Monster"),
-        SPELL("Spell");
+        MONSTER("MONSTER"),
+        SPELL("SPELL");
 
         private final String value;
 
@@ -18,18 +18,19 @@ public class Card {
         }
 
         public static Type mapFrom(String value) {
+            value = value.toUpperCase();
             return switch (value) {
-                case "Monster" -> MONSTER;
-                case "Spell" -> SPELL;
+                case "MONSTER" -> MONSTER;
+                case "SPELL" -> SPELL;
                 default -> throw new RuntimeException("No Type mapping for \"" + value + "\"!");
             };
         }
     }
 
     public enum Element {
-        WATER("Water"),
-        FIRE("Fire"),
-        NORMAL("Normal");
+        WATER("WATER"),
+        FIRE("FIRE"),
+        NORMAL("NORMAL");
 
         private final String value;
 
@@ -42,10 +43,11 @@ public class Card {
         }
 
         public static Element mapFrom(String value) {
+            value = value.toUpperCase();
             return switch (value) {
-                case "Water" -> WATER;
-                case "Fire" -> FIRE;
-                case "Normal" -> NORMAL;
+                case "WATER" -> WATER;
+                case "FIRE" -> FIRE;
+                case "NORMAL" -> NORMAL;
                 default -> throw new RuntimeException("No Element mapping for \"" + value + "\"!");
             };
         }
@@ -113,5 +115,15 @@ public class Card {
 
     public void setOwner(UUID owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "-- " + name + " --" +
+                "\n  Id: " + id +
+                "\n  Damage: " + damage +
+                "\n  Type: " + type +
+                "\n  Element: " + element +
+                "\n  Owner: " + owner + "\n";
     }
 }

@@ -48,4 +48,12 @@ public abstract class Controller {
 
         return response;
     }
+
+    protected Response plain(HttpStatus httpStatus, String body) {
+        Response response = new Response();
+        response.setStatus(httpStatus);
+        response.setContentType(HttpContentType.APPLICATION_JSON);
+        response.setBody(body);
+        return response;
+    }
 }

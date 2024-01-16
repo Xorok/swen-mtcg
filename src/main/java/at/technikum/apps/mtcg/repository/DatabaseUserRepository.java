@@ -1,6 +1,7 @@
 package at.technikum.apps.mtcg.repository;
 
 import at.technikum.apps.mtcg.data.Database;
+import at.technikum.apps.mtcg.dto.UserInDto;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 
@@ -16,6 +17,7 @@ public class DatabaseUserRepository implements UserRepository {
     private static final String CREATE_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins, u_elo) VALUES(?::uuid, ?, ?, ?::bytea, ?, ?);";
     private static final String FIND_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
     private static final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
+    private static final String UPDATE_USER_SQL = "UPDATE u_user SET u_name = ?, u_bio = ?, u_image = ? WHERE u_username = ?;";
 
     private final Database database;
 
@@ -43,6 +45,24 @@ public class DatabaseUserRepository implements UserRepository {
         }
 
         return user;
+    }
+
+    @Override
+    public void update(String username, UserInDto userDetails) throws InternalServerException {
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(UPDATE_USER_SQL)
+        ) {
+            pstmt.setString(1, userDetails.getName());
+            pstmt.setString(2, userDetails.getBio());
+            pstmt.setString(3, userDetails.getImage());
+            pstmt.setString(4, username);
+
+            pstmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred during user creation!");
+        }
     }
 
     @Override
@@ -85,7 +105,10 @@ public class DatabaseUserRepository implements UserRepository {
                     resultSet.getString("u_pass_hash"),
                     resultSet.getBytes("u_pass_salt"),
                     resultSet.getInt("u_coins"),
-                    resultSet.getInt("u_elo")
+                    resultSet.getInt("u_elo"),
+                    resultSet.getString("u_name"),
+                    resultSet.getString("u_bio"),
+                    resultSet.getString("u_image")
             ));
         }
         return Optional.empty();

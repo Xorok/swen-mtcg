@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.converter;
 
-import at.technikum.apps.mtcg.dto.CardDto;
+import at.technikum.apps.mtcg.dto.CardInDto;
 import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.exception.InvalidCardException;
 import at.technikum.apps.mtcg.util.InputValidator;
@@ -15,7 +15,7 @@ public class CardDtoToCardConverter {
         this.inputValidator = inputValidator;
     }
 
-    public Card convert(CardDto newCard) throws InvalidCardException {
+    public Card convert(CardInDto newCard) throws InvalidCardException {
         if (!inputValidator.cardId(newCard.getId())) {
             throw new InvalidCardException("The card id \"" + newCard.getId() + "\" is invalid!");
         }

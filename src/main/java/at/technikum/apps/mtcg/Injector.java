@@ -43,7 +43,7 @@ public class Injector {
 
         // User: /users
         UserService userService = new UserService(userRepository, inputValidator, passwordHashUtils);
-        controllerList.add(new UserController(userService, inputValidator, objectMapper));
+        controllerList.add(new UserController(userService, sessionService, inputValidator, httpUtils, objectMapper));
 
         // Package: /packages
         CardDtoToCardConverter cardConverter = new CardDtoToCardConverter(inputValidator);

@@ -3,6 +3,7 @@ package at.technikum.apps.mtcg.repository;
 import at.technikum.apps.mtcg.data.Database;
 import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.entity.User;
+import at.technikum.apps.mtcg.exception.DuplicateCardException;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
 import at.technikum.apps.mtcg.util.SQLCloseable;
@@ -38,7 +39,7 @@ public class DatabaseCardRepository implements CardRepository {
     }
 
     @Override
-    public void createAll(Card[] cards) throws InternalServerException {
+    public void createAll(Card[] cards) throws DuplicateCardException, InternalServerException {
         String insertsSQL = INSERT_CARD_SQL +
                 INSERT_CARD_SQL_MULTIPLE_VALUES.repeat(Math.max(0, cards.length - 1));
         try (
@@ -55,10 +56,12 @@ public class DatabaseCardRepository implements CardRepository {
                 pstmt.setObject(i * 6 + 6, cards[i].getOwner());
             }
 
-            // TODO: Add duplicate card exception as in API description
             pstmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            if ((e.getSQLState().equals("23505"))) { // Postgres SQL: 23505 unique_violation
+                throw new DuplicateCardException("At least one card in the packages already exists!");
+            }
             throw new InternalServerException("A database error occurred during card creation!");
         }
     }

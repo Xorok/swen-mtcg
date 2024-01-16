@@ -10,6 +10,9 @@ public class User {
     private byte[] passwordSalt;
     private int coins;
     private int elo;
+    private String name;
+    private String bio;
+    private String image;
 
     public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, int elo) {
         this.userId = userId;
@@ -18,6 +21,18 @@ public class User {
         this.passwordSalt = passwordSalt;
         this.coins = coins;
         this.elo = elo;
+    }
+
+    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, int elo, String name, String bio, String image) {
+        this.userId = userId;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
+        this.coins = coins;
+        this.elo = elo;
+        this.name = name;
+        this.bio = bio;
+        this.image = image;
     }
 
     public UUID getUserId() {
@@ -66,6 +81,30 @@ public class User {
 
     public void setElo(int elo) {
         this.elo = elo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

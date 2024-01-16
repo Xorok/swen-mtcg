@@ -1,7 +1,8 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.dto.CardDto;
+import at.technikum.apps.mtcg.dto.CardInDto;
 import at.technikum.apps.mtcg.entity.User;
+import at.technikum.apps.mtcg.exception.DuplicateCardException;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCardException;
 import at.technikum.apps.mtcg.exception.WrongNumberOfCardsException;
@@ -62,9 +63,9 @@ public class PackageController extends Controller {
         }
 
         // TODO: Check if required args are set in body
-        CardDto[] newCards;
+        CardInDto[] newCards;
         try {
-            newCards = objectMapper.readValue(request.getBody(), CardDto[].class);
+            newCards = objectMapper.readValue(request.getBody(), CardInDto[].class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, "There is an error in the submitted JSON!");
@@ -75,6 +76,9 @@ public class PackageController extends Controller {
         } catch (WrongNumberOfCardsException | InvalidCardException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (DuplicateCardException e) {
+            e.printStackTrace();
+            return status(HttpStatus.CONFLICT, e.getMessage());
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

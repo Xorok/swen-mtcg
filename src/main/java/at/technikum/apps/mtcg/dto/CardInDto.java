@@ -2,7 +2,7 @@ package at.technikum.apps.mtcg.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CardDto {
+public class CardInDto {
 
     @JsonProperty(value = "Id", required = true)
     private String id;
@@ -11,10 +11,10 @@ public class CardDto {
     @JsonProperty(value = "Damage", required = true)
     private Double damage;
 
-    public CardDto() {
+    public CardInDto() {
     }
 
-    public CardDto(String id, String name, Double damage) {
+    public CardInDto(String id, String name, Double damage) {
         this.id = id;
         this.name = name;
         this.damage = damage;

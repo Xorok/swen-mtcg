@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.dto.UserDto;
+import at.technikum.apps.mtcg.dto.LoginInDto;
 import at.technikum.apps.mtcg.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +17,12 @@ class UserServiceTest {
         // Arrange
         UserRepository userRepository = mock(UserRepository.class);
         UserService userService = new UserService(userRepository);
-        UserDto user = new UserDto("", "Clean", "Kitchen", false);
+        LoginInDto user = new LoginInDto("", "Clean", "Kitchen", false);
 
         when(userRepository.save(any())).then(returnsFirstArg());
 
         // Act
-        UserDto answer = userService.create(user);
+        LoginInDto answer = userService.create(user);
 
         // Assert
         assertNotEquals("", answer.getId());
@@ -36,7 +36,7 @@ class UserServiceTest {
         // Arrange
         UserRepository userRepository = mock(UserRepository.class);
         UserService userService = new UserService(userRepository);
-        UserDto user = new UserDto("", "Clean", "Kitchen", false);
+        LoginInDto user = new LoginInDto("", "Clean", "Kitchen", false);
 
         // Act
         userService.create(user);

@@ -2,7 +2,7 @@ package at.technikum.apps.mtcg.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserDto {
+public class LoginInDto {
 
     @JsonProperty(value = "Username", required = true)
     private String username;
@@ -10,10 +10,10 @@ public class UserDto {
     @JsonProperty(value = "Password", required = true)
     private String password;
 
-    public UserDto() {
+    public LoginInDto() {
     }
 
-    public UserDto(String username, String password) {
+    public LoginInDto(String username, String password) {
         this.username = username;
         this.password = password;
     }

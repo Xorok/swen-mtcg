@@ -1,6 +1,7 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.dto.UserDto;
+import at.technikum.apps.mtcg.dto.LoginInDto;
+import at.technikum.apps.mtcg.dto.UserInDto;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NonConformingCredentialsException;
@@ -24,23 +25,23 @@ public class UserService {
         this.passwordHashUtils = passwordHashUtils;
     }
 
-    public User create(UserDto userDto) throws UserAlreadyExistsException, NonConformingCredentialsException, InternalServerException {
+    public User create(LoginInDto userInDto) throws UserAlreadyExistsException, NonConformingCredentialsException, InternalServerException {
         // Check if username fulfills requirements
-        String username = userDto.getUsername();
+        String username = userInDto.getUsername();
         if (!inputValidator.username(username)) {
             throw new NonConformingCredentialsException("Username doesn't fulfill requirements!");
         }
 
         // Check if password fulfills requirements
-        String password = userDto.getPassword();
+        String password = userInDto.getPassword();
         if (!inputValidator.password(password)) {
             throw new NonConformingCredentialsException("Password doesn't fulfill requirements!");
         }
 
         // Check if user already exists in database
-        Optional<User> userOptional = find(userDto.getUsername());
+        Optional<User> userOptional = find(userInDto.getUsername());
         if (userOptional.isPresent()) {
-            throw new UserAlreadyExistsException("Username \"" + userDto.getUsername() + "\" is already taken!");
+            throw new UserAlreadyExistsException("Username \"" + userInDto.getUsername() + "\" is already taken!");
         }
 
         // Generate hash from password
@@ -72,5 +73,13 @@ public class UserService {
 
     public Optional<User> find(String username) throws InternalServerException {
         return userRepository.find(username);
+    }
+
+    public Optional<User> getUserData(String username) throws InternalServerException {
+        return userRepository.find(username);
+    }
+
+    public void updateUserData(String username, UserInDto userDetails) throws InternalServerException {
+        userRepository.update(username, userDetails);
     }
 }

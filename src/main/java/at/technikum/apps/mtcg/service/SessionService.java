@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.dto.UserDto;
+import at.technikum.apps.mtcg.dto.LoginInDto;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
@@ -30,15 +30,15 @@ public class SessionService {
         this.activeSessions = new HashMap<>();
     }
 
-    public String login(UserDto userDto) throws InvalidCredentialsException, SessionAlreadyExistsException, InternalServerException {
+    public String login(LoginInDto userInDto) throws InvalidCredentialsException, SessionAlreadyExistsException, InternalServerException {
         // Check if submitted username & password even fulfill requirements
-        if (!inputValidator.username(userDto.getUsername()) ||
-                !inputValidator.password(userDto.getPassword())) {
+        if (!inputValidator.username(userInDto.getUsername()) ||
+                !inputValidator.password(userInDto.getPassword())) {
             throw new InvalidCredentialsException("Invalid username/password provided!");
         }
 
         // Get user from database
-        Optional<User> userOptional = userRepository.find(userDto.getUsername());
+        Optional<User> userOptional = userRepository.find(userInDto.getUsername());
         if (userOptional.isEmpty()) {
             throw new InvalidCredentialsException("User doesn't exist!");
         }
@@ -53,7 +53,7 @@ public class SessionService {
         boolean credentialsCorr;
         try {
             credentialsCorr = passwordHashUtils.verifyPassword(
-                    userDto.getPassword(),
+                    userInDto.getPassword(),
                     user.getPasswordHash(),
                     user.getPasswordSalt());
         } catch (Exception e) {

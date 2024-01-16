@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.dto.UserDto;
+import at.technikum.apps.mtcg.dto.LoginInDto;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
 import at.technikum.apps.mtcg.exception.SessionAlreadyExistsException;
@@ -36,9 +36,9 @@ public class SessionController extends Controller {
 
     public Response loginUser(Request request) {
         // TODO: Check if required args are set in body
-        UserDto userDto;
+        LoginInDto userInDto;
         try {
-            userDto = objectMapper.readValue(request.getBody(), UserDto.class);
+            userInDto = objectMapper.readValue(request.getBody(), LoginInDto.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, "There is an error in the submitted JSON!");
@@ -46,7 +46,7 @@ public class SessionController extends Controller {
 
         String token;
         try {
-            token = sessionService.login(userDto);
+            token = sessionService.login(userInDto);
         } catch (InvalidCredentialsException e) {
             e.printStackTrace();
             return status(HttpStatus.UNAUTHORIZED, e.getMessage());

@@ -8,10 +8,10 @@ TRUNCATE
 
 -- Restore default card & element types
 INSERT INTO ct_card_type(ct_name)
-VALUES ('Monster'),
-       ('Spell');
+VALUES ('MONSTER'),
+       ('SPELL');
 
 INSERT INTO ce_card_element(ce_name)
-VALUES ('Water'),
-       ('Fire'),
-       ('Normal');
+VALUES ('WATER'),
+       ('FIRE'),
+       ('NORMAL');
