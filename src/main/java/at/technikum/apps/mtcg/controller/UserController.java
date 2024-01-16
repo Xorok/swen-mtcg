@@ -16,10 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UserController extends Controller {
     private final UserService userService;
     private final InputValidator inputValidator;
+    private final ObjectMapper objectMapper;
 
-    public UserController(UserService userService, InputValidator inputValidator) {
+    public UserController(UserService userService, InputValidator inputValidator, ObjectMapper objectMapper) {
         this.userService = userService;
         this.inputValidator = inputValidator;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -30,10 +32,10 @@ public class UserController extends Controller {
     @Override
     public Response handle(Request request) {
         if (request.getRoute().equals("/users")) {
-            if (request.getMethod().equals("POST")) {
-                return registerNewUser(request);
-            }
-            return status(HttpStatus.METHOD_NOT_ALLOWED);
+            return switch (request.getMethod()) {
+                case "POST" -> registerNewUser(request);
+                default -> status(HttpStatus.METHOD_NOT_ALLOWED);
+            };
         } else {
             // get url fragments e.g. from /users/{username}
             String[] routeParts = request.getRoute().split("/");
@@ -48,21 +50,19 @@ public class UserController extends Controller {
                 return status(HttpStatus.BAD_REQUEST, "Username missing or invalid!");
             }
 
-            switch (request.getMethod()) {
-                case "GET":
+            return switch (request.getMethod()) {
+                case "GET" ->
                     // TODO: Check if request comes from this user or admin (and if user exists)
-                    return getUserData(username);
-                case "PUT":
+                        getUserData(username);
+                case "PUT" ->
                     // TODO: Check if request comes from this user or admin (and if user exists)
-                    return updateUserData(username, request);
-                default:
-                    return status(HttpStatus.METHOD_NOT_ALLOWED);
-            }
+                        updateUserData(username, request);
+                default -> status(HttpStatus.METHOD_NOT_ALLOWED);
+            };
         }
     }
 
     public Response registerNewUser(Request request) {
-        ObjectMapper objectMapper = new ObjectMapper();
         // TODO: Check if required args are set in body
         UserDto userDto;
         try {

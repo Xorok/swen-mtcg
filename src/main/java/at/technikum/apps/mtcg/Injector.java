@@ -11,6 +11,7 @@ import at.technikum.apps.mtcg.service.*;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.apps.mtcg.util.PasswordHashUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,36 +26,41 @@ public class Injector {
         List<Controller> controllerList = new ArrayList<>();
 
         // General
-        // - DB Access
+        //  * DB Access
         Database database = new Database();
-        // - Repositories
+        //  * Repositories
         UserRepository userRepository = new DatabaseUserRepository(database);
-        CardRepository cardRepository = new DatabaseCardRepository(database, userRepository);
-        // - Utilities
+        CardRepository cardRepository = new DatabaseCardRepository(database);
+        //  * Utilities
         InputValidator inputValidator = new InputValidator();
         PasswordHashUtils passwordHashUtils = new PasswordHashUtils();
         HttpUtils httpUtils = new HttpUtils();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         // Session: /sessions
         SessionService sessionService = new SessionService(userRepository, inputValidator, passwordHashUtils);
-        controllerList.add(new SessionController(sessionService));
+        controllerList.add(new SessionController(sessionService, objectMapper));
 
-        // Users: /users
+        // User: /users
         UserService userService = new UserService(userRepository, inputValidator, passwordHashUtils);
-        controllerList.add(new UserController(userService, inputValidator));
+        controllerList.add(new UserController(userService, inputValidator, objectMapper));
 
-        // Packages: /packages
+        // Package: /packages
         CardDtoToCardConverter cardConverter = new CardDtoToCardConverter(inputValidator);
         PackageService packageService = new PackageService(cardRepository, cardConverter);
-        controllerList.add(new PackageController(packageService, sessionService, userService, inputValidator, httpUtils));
+        controllerList.add(new PackageController(packageService, sessionService, userService, inputValidator, httpUtils, objectMapper));
 
-        // Transactions: /transactions
-        TransactionService transactionService = new TransactionService(cardRepository, sessionService);
+        // Transaction: /transactions
+        TransactionService transactionService = new TransactionService(cardRepository, userRepository, sessionService);
         controllerList.add(new TransactionController(transactionService, sessionService, inputValidator, httpUtils));
 
-        // Cards: /cards
+        // Card: /cards
         CardService cardService = new CardService(cardRepository);
         controllerList.add(new CardController(cardService, sessionService, inputValidator, httpUtils));
+
+        // Deck: /deck
+        DeckService deckService = new DeckService(cardRepository, inputValidator);
+        controllerList.add(new DeckController(deckService, sessionService, inputValidator, httpUtils, objectMapper));
 
         return controllerList;
     }

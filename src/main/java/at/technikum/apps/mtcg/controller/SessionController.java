@@ -14,9 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SessionController extends Controller {
     private final SessionService sessionService;
+    private final ObjectMapper objectMapper;
 
-    public SessionController(SessionService sessionsService) {
+    public SessionController(SessionService sessionsService, ObjectMapper objectMapper) {
         this.sessionService = sessionsService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -26,16 +28,15 @@ public class SessionController extends Controller {
 
     @Override
     public Response handle(Request request) {
-        if (request.getMethod().equals("POST")) {
-            return loginUser(request);
-        }
-        return status(HttpStatus.METHOD_NOT_ALLOWED);
+        return switch (request.getMethod()) {
+            case "POST" -> loginUser(request);
+            default -> status(HttpStatus.METHOD_NOT_ALLOWED);
+        };
     }
 
     public Response loginUser(Request request) {
-        ObjectMapper objectMapper = new ObjectMapper();
         // TODO: Check if required args are set in body
-        UserDto userDto = null;
+        UserDto userDto;
         try {
             userDto = objectMapper.readValue(request.getBody(), UserDto.class);
         } catch (JsonProcessingException e) {

@@ -5,7 +5,7 @@ import at.technikum.apps.mtcg.dto.CardDto;
 import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCardException;
-import at.technikum.apps.mtcg.exception.InvalidPackageSizeException;
+import at.technikum.apps.mtcg.exception.WrongNumberOfCardsException;
 import at.technikum.apps.mtcg.repository.CardRepository;
 
 public class PackageService {
@@ -18,9 +18,9 @@ public class PackageService {
         this.cardConverter = cardConverter;
     }
 
-    public void createPackage(CardDto[] newCards) throws InvalidPackageSizeException, InvalidCardException, InternalServerException {
+    public void createPackage(CardDto[] newCards) throws WrongNumberOfCardsException, InvalidCardException, InternalServerException {
         if (newCards.length == 0 || newCards.length % 5 != 0) {
-            throw new InvalidPackageSizeException("Invalid number of cards! Packages contain five cards each!");
+            throw new WrongNumberOfCardsException("Invalid number of cards! Packages contain five cards each!");
         }
 
         Card[] cards = new Card[newCards.length];

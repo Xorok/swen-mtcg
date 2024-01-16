@@ -35,10 +35,10 @@ public class TransactionController extends Controller {
 
     @Override
     public Response handle(Request request) {
-        if (request.getMethod().equals("POST")) {
-            return acquirePackage(request);
-        }
-        return status(HttpStatus.METHOD_NOT_ALLOWED);
+        return switch (request.getMethod()) {
+            case "POST" -> acquirePackage(request);
+            default -> status(HttpStatus.METHOD_NOT_ALLOWED);
+        };
     }
 
     public Response acquirePackage(Request request) {

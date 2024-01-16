@@ -9,8 +9,8 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 public class PasswordHashUtils {
-    private final int iterations = 10000;
-    private final int keyLength = 512; // key length in bits
+    private static final int iterations = 10000;
+    private static final int keyLength = 512; // key length in bits
 
     public record HashSaltTuple(String hash, byte[] salt) {
     }

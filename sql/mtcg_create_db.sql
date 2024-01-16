@@ -21,6 +21,7 @@ CREATE TABLE ct_card_type
 CREATE TABLE c_card
 (
     c_id         UUID PRIMARY KEY,
+    c_no         SERIAL,
     c_name       VARCHAR(255) NOT NULL,
     c_damage     FLOAT        NOT NULL,
     c_ct_type    VARCHAR(255) NOT NULL REFERENCES ct_card_type (ct_name),
@@ -30,13 +31,9 @@ CREATE TABLE c_card
 
 CREATE TABLE d_deck
 (
-    d_u_owner UUID PRIMARY KEY REFERENCES u_user (u_id)
-);
-
-CREATE TABLE dc_deck_card
-(
-    dc_d_deck UUID PRIMARY KEY REFERENCES d_deck (d_u_owner),
-    dc_c_card UUID REFERENCES c_card (c_id)
+    d_u_owner UUID REFERENCES u_user (u_id),
+    d_c_card  UUID REFERENCES c_card (c_id),
+    PRIMARY KEY (d_u_owner, d_c_card)
 );
 
 CREATE TABLE t_trade

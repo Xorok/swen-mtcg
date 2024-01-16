@@ -4,12 +4,12 @@ import java.util.UUID;
 
 public class InputValidator {
     // Username must be 1-30 characters long and consist of letters and numbers
-    private final String USERNAME_REGEX = "[a-zA-Z0-9äöüÄÖÜẞß]{1,30}";
+    private static final String USERNAME_REGEX = "[a-zA-Z0-9äöüÄÖÜẞß]{1,30}";
     // Password must be 8-30 characters long, contain a number, an upper- & lowercase letter and a special character
-    private final String INVALID_PASSWORD_REGEX = "(.{0,7}|.{31,}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)";
-    private final String SESSION_TOKEN_REGEX = USERNAME_REGEX + "-mtcgToken";
-    private final String AUTH_HEADER_REGEX = "Bearer " + USERNAME_REGEX + "-mtcgToken";
-    private final String CARD_NAME_REGEX = "[a-zA-Z0-9':&./\\-\\\\ äöüÄÖÜẞß]{1,30}";
+    private static final String INVALID_PASSWORD_REGEX = "(.{0,7}|.{31,}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)";
+    private static final String SESSION_TOKEN_REGEX = USERNAME_REGEX + "-mtcgToken";
+    private static final String AUTH_HEADER_REGEX = "Bearer " + USERNAME_REGEX + "-mtcgToken";
+    private static final String CARD_NAME_REGEX = "[a-zA-Z0-9':&./\\-\\\\ äöüÄÖÜẞß]{1,30}";
 
     public boolean username(String username) {
         return username != null && username.matches(USERNAME_REGEX);

@@ -13,9 +13,9 @@ import java.util.UUID;
 
 public class DatabaseUserRepository implements UserRepository {
 
-    private final String CREATE_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins, u_elo) VALUES(?::uuid, ?, ?, ?::bytea, ?, ?);";
-    private final String FIND_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
-    private final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
+    private static final String CREATE_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins, u_elo) VALUES(?::uuid, ?, ?, ?::bytea, ?, ?);";
+    private static final String FIND_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
+    private static final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
 
     private final Database database;
 
@@ -53,23 +53,12 @@ public class DatabaseUserRepository implements UserRepository {
         ) {
             pstmt.setString(1, username);
 
-            ResultSet result = pstmt.executeQuery();
-            if (result.next()) {
-                return Optional.of(new User(
-                        result.getObject("u_id", java.util.UUID.class),
-                        result.getString("u_username"),
-                        result.getString("u_pass_hash"),
-                        result.getBytes("u_pass_salt"),
-                        result.getInt("u_coins"),
-                        result.getInt("u_elo")
-                ));
-            }
+            ResultSet resultSet = pstmt.executeQuery();
+            return getUserFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred while trying to find the supplied user!");
         }
-
-        return Optional.empty();
     }
 
     @Override
@@ -80,22 +69,25 @@ public class DatabaseUserRepository implements UserRepository {
         ) {
             pstmt.setObject(1, userId);
 
-            ResultSet result = pstmt.executeQuery();
-            if (result.next()) {
-                return Optional.of(new User(
-                        result.getObject("u_id", java.util.UUID.class),
-                        result.getString("u_username"),
-                        result.getString("u_pass_hash"),
-                        result.getBytes("u_pass_salt"),
-                        result.getInt("u_coins"),
-                        result.getInt("u_elo")
-                ));
-            }
+            ResultSet resultSet = pstmt.executeQuery();
+            return getUserFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred while trying to find the supplied user!");
         }
+    }
 
+    private Optional<User> getUserFromResultSet(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return Optional.of(new User(
+                    resultSet.getObject("u_id", java.util.UUID.class),
+                    resultSet.getString("u_username"),
+                    resultSet.getString("u_pass_hash"),
+                    resultSet.getBytes("u_pass_salt"),
+                    resultSet.getInt("u_coins"),
+                    resultSet.getInt("u_elo")
+            ));
+        }
         return Optional.empty();
     }
 }

@@ -34,10 +34,10 @@ public class CardController extends Controller {
 
     @Override
     public Response handle(Request request) {
-        if (request.getMethod().equals("GET")) {
-            return getCards(request);
-        }
-        return status(HttpStatus.METHOD_NOT_ALLOWED);
+        return switch (request.getMethod()) {
+            case "GET" -> getCards(request);
+            default -> status(HttpStatus.METHOD_NOT_ALLOWED);
+        };
     }
 
     public Response getCards(Request request) {

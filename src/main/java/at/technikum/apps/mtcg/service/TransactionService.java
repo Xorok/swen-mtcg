@@ -6,14 +6,19 @@ import at.technikum.apps.mtcg.exception.InvalidUserException;
 import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
 import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
 import at.technikum.apps.mtcg.repository.CardRepository;
+import at.technikum.apps.mtcg.repository.UserRepository;
+
+import java.util.Optional;
 
 public class TransactionService {
 
     private final CardRepository cardRepository;
+    private final UserRepository userRepository;
     private final SessionService sessionService;
 
-    public TransactionService(CardRepository cardRepository, SessionService sessionService) {
+    public TransactionService(CardRepository cardRepository, UserRepository userRepository, SessionService sessionService) {
         this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
         this.sessionService = sessionService;
     }
 
@@ -22,7 +27,17 @@ public class TransactionService {
             throw new NotEnoughCoinsException("User does not have enough money for buying a card package!");
         }
 
-        User updatedUser = cardRepository.buyPackage(user);
+        Optional<User> userOptional = userRepository.find(user.getUserId());
+        if (userOptional.isEmpty()) {
+            throw new InvalidUserException("Could not find specified user in database!");
+        }
+        User dbUser = userOptional.get();
+
+        if (dbUser.getCoins() < 5) {
+            throw new NotEnoughCoinsException("User does not have enough money for buying a card package!");
+        }
+
+        User updatedUser = cardRepository.buyPackage(dbUser);
         sessionService.updateSessionUser(updatedUser);
     }
 }
