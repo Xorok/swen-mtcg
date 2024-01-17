@@ -1,9 +1,10 @@
 package at.technikum.apps.mtcg.repository;
 
 import at.technikum.apps.mtcg.data.Database;
-import at.technikum.apps.mtcg.dto.UserInDto;
+import at.technikum.apps.mtcg.entity.Stat;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
+import at.technikum.apps.mtcg.util.SQLCloseable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +15,12 @@ import java.util.UUID;
 
 public class DatabaseUserRepository implements UserRepository {
 
-    private static final String CREATE_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins, u_elo) VALUES(?::uuid, ?, ?, ?::bytea, ?, ?);";
+    private static final String CREATE_USER_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins) VALUES(?::uuid, ?, ?, ?::bytea, ?);";
+    private static final String CREATE_STAT_SQL = "INSERT INTO s_stat(s_u_id, s_elo, s_wins, s_losses) VALUES(?::uuid, ?, ?, ?);";
     private static final String FIND_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
     private static final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
-    private static final String UPDATE_USER_SQL = "UPDATE u_user SET u_name = ?, u_bio = ?, u_image = ? WHERE u_username = ?;";
+    private static final String UPDATE_USER_SQL = "UPDATE u_user SET u_name = ?, u_bio = ?, u_image = ? WHERE u_id = ?::uuid;";
+    private static final String FIND_STAT_SQL = "SELECT * FROM s_stat WHERE s_u_id = ?::uuid;";
 
     private final Database database;
 
@@ -26,19 +29,29 @@ public class DatabaseUserRepository implements UserRepository {
     }
 
     @Override
-    public User create(User user) throws InternalServerException {
+    public User create(User user, Stat stat) throws InternalServerException {
         try (
                 Connection con = database.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(CREATE_SQL)
+                PreparedStatement userPstmt = con.prepareStatement(CREATE_USER_SQL);
+                PreparedStatement statPstmt = con.prepareStatement(CREATE_STAT_SQL);
+                SQLCloseable finish = con::rollback; // Always rollback at the end
         ) {
-            pstmt.setObject(1, user.getUserId());
-            pstmt.setString(2, user.getUsername());
-            pstmt.setString(3, user.getPasswordHash());
-            pstmt.setBytes(4, user.getPasswordSalt());
-            pstmt.setInt(5, user.getCoins());
-            pstmt.setInt(6, user.getElo());
+            con.setAutoCommit(false);
 
-            pstmt.execute();
+            userPstmt.setObject(1, user.getUserId());
+            userPstmt.setString(2, user.getUsername());
+            userPstmt.setString(3, user.getPasswordHash());
+            userPstmt.setBytes(4, user.getPasswordSalt());
+            userPstmt.setInt(5, user.getCoins());
+
+            statPstmt.setObject(1, user.getUserId());
+            statPstmt.setInt(2, stat.getElo());
+            statPstmt.setInt(3, stat.getWins());
+            statPstmt.setInt(4, stat.getLosses());
+
+            userPstmt.execute();
+            statPstmt.execute();
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred during user creation!");
@@ -48,21 +61,22 @@ public class DatabaseUserRepository implements UserRepository {
     }
 
     @Override
-    public void update(String username, UserInDto userDetails) throws InternalServerException {
+    public User update(User user) throws InternalServerException {
         try (
                 Connection con = database.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(UPDATE_USER_SQL)
         ) {
-            pstmt.setString(1, userDetails.getName());
-            pstmt.setString(2, userDetails.getBio());
-            pstmt.setString(3, userDetails.getImage());
-            pstmt.setString(4, username);
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getBio());
+            pstmt.setString(3, user.getImage());
+            pstmt.setObject(4, user.getUserId());
 
             pstmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new InternalServerException("A database error occurred during user creation!");
+            throw new InternalServerException("A database error occurred during user update!");
         }
+        return user;
     }
 
     @Override
@@ -97,6 +111,22 @@ public class DatabaseUserRepository implements UserRepository {
         }
     }
 
+    @Override
+    public Optional<Stat> getStat(UUID userId) throws InternalServerException {
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(FIND_STAT_SQL)
+        ) {
+            pstmt.setObject(1, userId);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            return getStatFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred while trying to get the statistics!");
+        }
+    }
+
     private Optional<User> getUserFromResultSet(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             return Optional.of(new User(
@@ -105,10 +135,21 @@ public class DatabaseUserRepository implements UserRepository {
                     resultSet.getString("u_pass_hash"),
                     resultSet.getBytes("u_pass_salt"),
                     resultSet.getInt("u_coins"),
-                    resultSet.getInt("u_elo"),
                     resultSet.getString("u_name"),
                     resultSet.getString("u_bio"),
                     resultSet.getString("u_image")
+            ));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Stat> getStatFromResultSet(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return Optional.of(new Stat(
+                    resultSet.getObject("s_u_id", java.util.UUID.class),
+                    resultSet.getInt("s_elo"),
+                    resultSet.getInt("s_wins"),
+                    resultSet.getInt("s_losses")
             ));
         }
         return Optional.empty();

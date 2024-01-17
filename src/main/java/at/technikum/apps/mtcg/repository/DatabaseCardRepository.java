@@ -18,7 +18,9 @@ import java.util.UUID;
 
 public class DatabaseCardRepository implements CardRepository {
 
-    private static final String INSERT_CARD_SQL = "INSERT INTO c_card(c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_CARD_SQL = "INSERT INTO c_card" +
+            "(c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner) " +
+            "VALUES(?, ?, ?, ?, ?, ?)";
     private static final String INSERT_CARD_SQL_MULTIPLE_VALUES = ", (?, ?, ?, ?, ?, ?)";
     private static final String ASSIGN_PACKAGE_SQL = "UPDATE c_card SET c_u_owner=?::uuid " +
             "WHERE c_id IN (SELECT c_id FROM c_card" +
@@ -26,11 +28,18 @@ public class DatabaseCardRepository implements CardRepository {
             "               ORDER BY c_no" +
             "               LIMIT 5);";
     private static final String REDUCE_COINS_SQL = "UPDATE u_user SET u_coins = u_coins-5 WHERE u_id = ?::uuid;";
-    private static final String SELECT_CARDS_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner FROM c_card WHERE c_u_owner = ?::uuid;";
+    private static final String SELECT_CARDS_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner " +
+            "FROM c_card " +
+            "WHERE c_u_owner = ?::uuid;";
     private static final String INSERT_DECK_SQL = "INSERT INTO d_deck(d_u_owner, d_c_card) VALUES(?::uuid, ?::uuid)";
     private static final String INSERT_DECK_SQL_MULTIPLE_VALUES = ", (?::uuid, ?::uuid)";
-    private static final String SELECT_DECK_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner FROM c_card INNER JOIN d_deck ON c_id = d_c_card WHERE d_u_owner = ?::uuid;";
-    private static final String USER_OWNS_CARDS_SQL = "SELECT COUNT(*) FROM c_card WHERE c_u_owner = ?::uuid AND c_id in (?::uuid, ?::uuid, ?::uuid, ?::uuid);";
+    private static final String SELECT_DECK_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner " +
+            "FROM c_card " +
+            "INNER JOIN d_deck ON c_id = d_c_card " +
+            "WHERE d_u_owner = ?::uuid;";
+    private static final String USER_OWNS_CARDS_SQL = "SELECT COUNT(*) FROM c_card " +
+            "WHERE c_u_owner = ?::uuid " +
+            "AND c_id in (?::uuid, ?::uuid, ?::uuid, ?::uuid);";
 
     private final Database database;
 

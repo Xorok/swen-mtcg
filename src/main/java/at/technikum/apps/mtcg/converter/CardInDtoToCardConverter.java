@@ -7,14 +7,15 @@ import at.technikum.apps.mtcg.util.InputValidator;
 
 import java.util.UUID;
 
-public class CardDtoToCardConverter {
+public class CardInDtoToCardConverter implements InConverter<CardInDto, Card> {
 
     private final InputValidator inputValidator;
 
-    public CardDtoToCardConverter(InputValidator inputValidator) {
+    public CardInDtoToCardConverter(InputValidator inputValidator) {
         this.inputValidator = inputValidator;
     }
 
+    @Override
     public Card convert(CardInDto newCard) throws InvalidCardException {
         if (!inputValidator.cardId(newCard.getId())) {
             throw new InvalidCardException("The card id \"" + newCard.getId() + "\" is invalid!");

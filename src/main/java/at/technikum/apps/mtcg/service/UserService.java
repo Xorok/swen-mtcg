@@ -1,11 +1,15 @@
 package at.technikum.apps.mtcg.service;
 
+import at.technikum.apps.mtcg.converter.UserToUserOutDtoConverter;
 import at.technikum.apps.mtcg.dto.LoginInDto;
 import at.technikum.apps.mtcg.dto.UserInDto;
+import at.technikum.apps.mtcg.dto.UserOutDto;
+import at.technikum.apps.mtcg.entity.Stat;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NonConformingCredentialsException;
 import at.technikum.apps.mtcg.exception.UserAlreadyExistsException;
+import at.technikum.apps.mtcg.exception.UserNotFoundException;
 import at.technikum.apps.mtcg.repository.UserRepository;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.apps.mtcg.util.PasswordHashUtils;
@@ -15,17 +19,21 @@ import java.util.UUID;
 
 public class UserService {
 
+    private final SessionService sessionService;
     private final UserRepository userRepository;
     private final InputValidator inputValidator;
     private final PasswordHashUtils passwordHashUtils;
+    private final UserToUserOutDtoConverter userConverter;
 
-    public UserService(UserRepository userRepository, InputValidator inputValidator, PasswordHashUtils passwordHashUtils) {
+    public UserService(SessionService sessionService, UserRepository userRepository, InputValidator inputValidator, PasswordHashUtils passwordHashUtils, UserToUserOutDtoConverter userConverter) {
+        this.sessionService = sessionService;
         this.userRepository = userRepository;
         this.inputValidator = inputValidator;
         this.passwordHashUtils = passwordHashUtils;
+        this.userConverter = userConverter;
     }
 
-    public User create(LoginInDto userInDto) throws UserAlreadyExistsException, NonConformingCredentialsException, InternalServerException {
+    public UserOutDto create(LoginInDto userInDto) throws UserAlreadyExistsException, NonConformingCredentialsException, InternalServerException {
         // Check if username fulfills requirements
         String username = userInDto.getUsername();
         if (!inputValidator.username(username)) {
@@ -56,14 +64,11 @@ public class UserService {
         // Generate userId
         UUID userId = UUID.randomUUID();
 
-        // Set default coins & elo
-        int coins = 20;
-        int elo = 100;
-
-        User user = new User(userId, username, passwordHashSalt.hash(), passwordHashSalt.salt(), coins, elo);
+        User user = new User(userId, username, passwordHashSalt.hash(), passwordHashSalt.salt());
+        Stat stat = new Stat(userId);
 
         // Create new user in database -> can throw UserCreationFailedException
-        return userRepository.create(user);
+        return userConverter.convert(userRepository.create(user, stat));
     }
 
     public boolean isAdmin(User user) {
@@ -75,11 +80,20 @@ public class UserService {
         return userRepository.find(username);
     }
 
-    public Optional<User> getUserData(String username) throws InternalServerException {
-        return userRepository.find(username);
+    public UserOutDto getUserData(String username) throws UserNotFoundException, InternalServerException {
+        Optional<User> user = userRepository.find(username);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("Could not find user in database!");
+        }
+        return userConverter.convert(user.get());
     }
 
-    public void updateUserData(String username, UserInDto userDetails) throws InternalServerException {
-        userRepository.update(username, userDetails);
+    public void updateUserData(User user, UserInDto newUserDetails) throws InternalServerException {
+        user.setName(newUserDetails.getName());
+        user.setBio(newUserDetails.getBio());
+        user.setImage(newUserDetails.getImage());
+
+        User newUser = userRepository.update(user);
+        sessionService.updateSessionUser(newUser);
     }
 }

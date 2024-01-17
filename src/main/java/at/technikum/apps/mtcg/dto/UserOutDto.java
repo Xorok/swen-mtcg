@@ -3,37 +3,23 @@ package at.technikum.apps.mtcg.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserOutDto {
-    @JsonProperty(value = "UserId")
-    private String userId;
     @JsonProperty(value = "Name")
     private String name;
     @JsonProperty(value = "Username")
     private String username;
     @JsonProperty(value = "Coins")
     private int coins;
-    @JsonProperty(value = "Elo")
-    private int elo;
     @JsonProperty(value = "Bio")
     private String bio;
     @JsonProperty(value = "Image")
     private String image;
 
-    public UserOutDto(String userId, String name, String username, int coins, int elo, String bio, String image) {
-        this.userId = userId;
+    public UserOutDto(String name, String username, int coins, String bio, String image) {
         this.name = name;
         this.username = username;
         this.coins = coins;
-        this.elo = elo;
         this.bio = bio;
         this.image = image;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getName() {
@@ -58,14 +44,6 @@ public class UserOutDto {
 
     public void setCoins(int coins) {
         this.coins = coins;
-    }
-
-    public int getElo() {
-        return elo;
-    }
-
-    public void setElo(int elo) {
-        this.elo = elo;
     }
 
     public String getBio() {

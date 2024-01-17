@@ -9,27 +9,24 @@ public class User {
     private String passwordHash;
     private byte[] passwordSalt;
     private int coins;
-    private int elo;
     private String name;
     private String bio;
     private String image;
 
-    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, int elo) {
+    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
-        this.coins = coins;
-        this.elo = elo;
+        this.coins = 20; // set default coins
     }
 
-    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, int elo, String name, String bio, String image) {
+    public User(UUID userId, String username, String passwordHash, byte[] passwordSalt, int coins, String name, String bio, String image) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
         this.coins = coins;
-        this.elo = elo;
         this.name = name;
         this.bio = bio;
         this.image = image;
@@ -73,14 +70,6 @@ public class User {
 
     public void setCoins(int coins) {
         this.coins = coins;
-    }
-
-    public int getElo() {
-        return elo;
-    }
-
-    public void setElo(int elo) {
-        this.elo = elo;
     }
 
     public String getName() {

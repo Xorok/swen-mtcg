@@ -1,6 +1,6 @@
 package at.technikum.apps.mtcg.service;
 
-import at.technikum.apps.mtcg.converter.CardDtoToCardConverter;
+import at.technikum.apps.mtcg.converter.CardInDtoToCardConverter;
 import at.technikum.apps.mtcg.dto.CardInDto;
 import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.exception.DuplicateCardException;
@@ -12,9 +12,9 @@ import at.technikum.apps.mtcg.repository.CardRepository;
 public class PackageService {
 
     private final CardRepository cardRepository;
-    private final CardDtoToCardConverter cardConverter;
+    private final CardInDtoToCardConverter cardConverter;
 
-    public PackageService(CardRepository cardRepository, CardDtoToCardConverter cardConverter) {
+    public PackageService(CardRepository cardRepository, CardInDtoToCardConverter cardConverter) {
         this.cardRepository = cardRepository;
         this.cardConverter = cardConverter;
     }

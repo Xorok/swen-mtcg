@@ -5,10 +5,17 @@ CREATE TABLE u_user
     u_pass_hash VARCHAR(255) NOT NULL,
     u_pass_salt BYTEA        NOT NULL,
     u_coins     INTEGER      NOT NULL CHECK (u_coins >= 0),
-    u_elo       INTEGER      NOT NULL,
     u_name      VARCHAR(255) NULL,
     u_bio       VARCHAR(255) NULL,
     u_image     VARCHAR(255) NULL
+);
+
+CREATE TABLE s_stat
+(
+    s_u_id   UUID PRIMARY KEY REFERENCES u_user (u_id),
+    s_elo    INTEGER NOT NULL,
+    s_wins   INTEGER NOT NULL CHECK (s_wins >= 0),
+    s_losses INTEGER NOT NULL CHECK (s_losses >= 0)
 );
 
 CREATE TABLE ce_card_element

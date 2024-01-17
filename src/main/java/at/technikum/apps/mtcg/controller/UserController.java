@@ -1,6 +1,5 @@
 package at.technikum.apps.mtcg.controller;
 
-import at.technikum.apps.mtcg.converter.UserToUserOutDtoConverter;
 import at.technikum.apps.mtcg.dto.LoginInDto;
 import at.technikum.apps.mtcg.dto.UserInDto;
 import at.technikum.apps.mtcg.dto.UserOutDto;
@@ -8,6 +7,7 @@ import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NonConformingCredentialsException;
 import at.technikum.apps.mtcg.exception.UserAlreadyExistsException;
+import at.technikum.apps.mtcg.exception.UserNotFoundException;
 import at.technikum.apps.mtcg.service.SessionService;
 import at.technikum.apps.mtcg.service.UserService;
 import at.technikum.apps.mtcg.util.HttpUtils;
@@ -65,17 +65,20 @@ public class UserController extends Controller {
                 return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
             }
 
-            Optional<User> user = sessionService
+            Optional<User> userOptional = sessionService
                     .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
-            if (user.isEmpty()) {
+            if (userOptional.isEmpty()) {
                 return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
-            } else if (!user.get().getUsername().equals(username) && !userService.isAdmin(user.get())) {
+            }
+            User user = userOptional.get();
+
+            if (!user.getUsername().equals(username) && !userService.isAdmin(user)) {
                 return status(HttpStatus.FORBIDDEN, "User does not have sufficient rights!");
             }
 
             return switch (request.getMethod()) {
                 case "GET" -> getUserData(username);
-                case "PUT" -> updateUserData(username, request);
+                case "PUT" -> updateUserData(user, request);
                 default -> status(HttpStatus.METHOD_NOT_ALLOWED);
             };
         }
@@ -93,7 +96,7 @@ public class UserController extends Controller {
 
         UserOutDto userOutDto;
         try {
-            userOutDto = UserToUserOutDtoConverter.convert(userService.create(userInDto));
+            userOutDto = userService.create(userInDto);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();
             return status(HttpStatus.CONFLICT, e.getMessage());
@@ -111,11 +114,10 @@ public class UserController extends Controller {
     public Response getUserData(String username) {
         UserOutDto userOutDto;
         try {
-            Optional<User> user = userService.getUserData(username);
-            if (user.isEmpty()) {
-                return status(HttpStatus.NOT_FOUND, "User could not be found!");
-            }
-            userOutDto = UserToUserOutDtoConverter.convert(user.get());
+            userOutDto = userService.getUserData(username);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return status(HttpStatus.NOT_FOUND, "User could not be found!");
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
@@ -123,17 +125,17 @@ public class UserController extends Controller {
         return json(HttpStatus.OK, userOutDto);
     }
 
-    public Response updateUserData(String username, Request request) {
-        UserInDto userDetails;
+    public Response updateUserData(User user, Request request) {
+        UserInDto newUserDetails;
         try {
-            userDetails = objectMapper.readValue(request.getBody(), UserInDto.class);
+            newUserDetails = objectMapper.readValue(request.getBody(), UserInDto.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, "There is an error in the submitted JSON!");
         }
 
         try {
-            userService.updateUserData(username, userDetails);
+            userService.updateUserData(user, newUserDetails);
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

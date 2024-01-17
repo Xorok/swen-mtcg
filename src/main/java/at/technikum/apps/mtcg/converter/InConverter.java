@@ -1,5 +1,5 @@
 package at.technikum.apps.mtcg.converter;
 
-interface Converter<T, R> {
+interface InConverter<T, R> {
     R convert(T obj) throws Exception;
 }

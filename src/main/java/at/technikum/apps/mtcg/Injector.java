@@ -1,7 +1,9 @@
 package at.technikum.apps.mtcg;
 
 import at.technikum.apps.mtcg.controller.*;
-import at.technikum.apps.mtcg.converter.CardDtoToCardConverter;
+import at.technikum.apps.mtcg.converter.CardInDtoToCardConverter;
+import at.technikum.apps.mtcg.converter.StatToStatOutDtoConverter;
+import at.technikum.apps.mtcg.converter.UserToUserOutDtoConverter;
 import at.technikum.apps.mtcg.data.Database;
 import at.technikum.apps.mtcg.repository.CardRepository;
 import at.technikum.apps.mtcg.repository.DatabaseCardRepository;
@@ -42,11 +44,12 @@ public class Injector {
         controllerList.add(new SessionController(sessionService, objectMapper));
 
         // User: /users
-        UserService userService = new UserService(userRepository, inputValidator, passwordHashUtils);
+        UserToUserOutDtoConverter userConverter = new UserToUserOutDtoConverter();
+        UserService userService = new UserService(sessionService, userRepository, inputValidator, passwordHashUtils, userConverter);
         controllerList.add(new UserController(userService, sessionService, inputValidator, httpUtils, objectMapper));
 
         // Package: /packages
-        CardDtoToCardConverter cardConverter = new CardDtoToCardConverter(inputValidator);
+        CardInDtoToCardConverter cardConverter = new CardInDtoToCardConverter(inputValidator);
         PackageService packageService = new PackageService(cardRepository, cardConverter);
         controllerList.add(new PackageController(packageService, sessionService, userService, inputValidator, httpUtils, objectMapper));
 
@@ -61,6 +64,11 @@ public class Injector {
         // Deck: /deck
         DeckService deckService = new DeckService(cardRepository, inputValidator);
         controllerList.add(new DeckController(deckService, sessionService, inputValidator, httpUtils, objectMapper));
+
+        // Stat: /stats
+        StatToStatOutDtoConverter statConverter = new StatToStatOutDtoConverter();
+        StatService statService = new StatService(userRepository, statConverter);
+        controllerList.add(new StatController(statService, sessionService, inputValidator, httpUtils));
 
         return controllerList;
     }
