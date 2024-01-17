@@ -6,7 +6,6 @@ import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.DuplicateCardException;
 import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
-import at.technikum.apps.mtcg.util.SQLCloseable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,24 +76,31 @@ public class DatabaseCardRepository implements CardRepository {
 
     @Override
     public synchronized User buyPackage(User user) throws NoPackageAvailableException, InternalServerException {
-        try (
-                Connection con = database.getConnection();
-                PreparedStatement packagePstmt = con.prepareStatement(ASSIGN_PACKAGE_SQL);
-                PreparedStatement coinsPstmt = con.prepareStatement(REDUCE_COINS_SQL);
-                SQLCloseable finish = con::rollback; // Always rollback at the end
-        ) {
+        try (java.sql.Connection con = database.getConnection()) {
             con.setAutoCommit(false);
-            packagePstmt.setObject(1, user.getUserId());
-            coinsPstmt.setObject(1, user.getUserId());
 
-            int updatedRows = packagePstmt.executeUpdate();
-            if (updatedRows < 5) {
+            try (
+                    PreparedStatement packagePstmt = con.prepareStatement(ASSIGN_PACKAGE_SQL);
+                    PreparedStatement coinsPstmt = con.prepareStatement(REDUCE_COINS_SQL);
+            ) {
+                packagePstmt.setObject(1, user.getUserId());
+                coinsPstmt.setObject(1, user.getUserId());
+
+                int updatedRows = packagePstmt.executeUpdate();
+                if (updatedRows < 5) {
+                    throw new NoPackageAvailableException("No card package available for buying!");
+                }
+
+                coinsPstmt.execute();
+
+            } catch (Exception e) {
                 con.rollback();
-                throw new NoPackageAvailableException("No card package available for buying!");
+                con.setAutoCommit(true);
+                throw e;
             }
-            coinsPstmt.execute();
+
             con.commit();
-            // TODO: Do we have to turn off autocommit again for future DB calls elsewhere? --> Interferes with needed SQLCloseable finish = con::rollback
+            con.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred during package acquisition!");
@@ -172,6 +178,7 @@ public class DatabaseCardRepository implements CardRepository {
 
             resultSet.next();
             int count = resultSet.getInt(1);
+            resultSet.close();
 
             return count == cardIds.length;
         } catch (SQLException e) {
@@ -192,6 +199,7 @@ public class DatabaseCardRepository implements CardRepository {
                     resultSet.getObject("c_u_owner", UUID.class)
             ));
         }
+        resultSet.close();
         return cards;
     }
 }

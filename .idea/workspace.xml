@@ -5,33 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/StatController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/OutConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/StatToStatOutDtoConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/StatOutDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Stat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/StatNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/StatService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_create_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_create_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_delete_db_tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_delete_db_tables.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_helper_commands.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_helper_commands.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/mtcg_reset_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/mtcg_reset_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/TransactionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardDtoToCardConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/Converter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/InConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/UserToUserOutDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/UserToUserOutDtoConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/UserOutDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/UserOutDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidUserException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/UserNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/PackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/PackageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/SQLCloseable.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +170,7 @@
       <workItem from="1704921187896" duration="1876000" />
       <workItem from="1705320505431" duration="36960000" />
       <workItem from="1705412830758" duration="3066000" />
-      <workItem from="1705475920215" duration="7955000" />
+      <workItem from="1705475920215" duration="9356000" />
     </task>
     <servers />
   </component>

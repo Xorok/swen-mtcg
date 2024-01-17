@@ -4,7 +4,6 @@ import at.technikum.apps.mtcg.data.Database;
 import at.technikum.apps.mtcg.entity.Stat;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.util.SQLCloseable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,28 +29,34 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public User create(User user, Stat stat) throws InternalServerException {
-        try (
-                Connection con = database.getConnection();
-                PreparedStatement userPstmt = con.prepareStatement(CREATE_USER_SQL);
-                PreparedStatement statPstmt = con.prepareStatement(CREATE_STAT_SQL);
-                SQLCloseable finish = con::rollback; // Always rollback at the end
-        ) {
+        try (java.sql.Connection con = database.getConnection()) {
             con.setAutoCommit(false);
 
-            userPstmt.setObject(1, user.getUserId());
-            userPstmt.setString(2, user.getUsername());
-            userPstmt.setString(3, user.getPasswordHash());
-            userPstmt.setBytes(4, user.getPasswordSalt());
-            userPstmt.setInt(5, user.getCoins());
+            try (
+                    PreparedStatement userPstmt = con.prepareStatement(CREATE_USER_SQL);
+                    PreparedStatement statPstmt = con.prepareStatement(CREATE_STAT_SQL);
+            ) {
+                userPstmt.setObject(1, user.getUserId());
+                userPstmt.setString(2, user.getUsername());
+                userPstmt.setString(3, user.getPasswordHash());
+                userPstmt.setBytes(4, user.getPasswordSalt());
+                userPstmt.setInt(5, user.getCoins());
 
-            statPstmt.setObject(1, user.getUserId());
-            statPstmt.setInt(2, stat.getElo());
-            statPstmt.setInt(3, stat.getWins());
-            statPstmt.setInt(4, stat.getLosses());
+                statPstmt.setObject(1, user.getUserId());
+                statPstmt.setInt(2, stat.getElo());
+                statPstmt.setInt(3, stat.getWins());
+                statPstmt.setInt(4, stat.getLosses());
 
-            userPstmt.execute();
-            statPstmt.execute();
+                userPstmt.execute();
+                statPstmt.execute();
+            } catch (SQLException e) {
+                con.rollback();
+                con.setAutoCommit(true);
+                throw e;
+            }
+
             con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred during user creation!");
@@ -128,8 +133,9 @@ public class DatabaseUserRepository implements UserRepository {
     }
 
     private Optional<User> getUserFromResultSet(ResultSet resultSet) throws SQLException {
+        Optional<User> user = Optional.empty();
         if (resultSet.next()) {
-            return Optional.of(new User(
+            user = Optional.of(new User(
                     resultSet.getObject("u_id", java.util.UUID.class),
                     resultSet.getString("u_username"),
                     resultSet.getString("u_pass_hash"),
@@ -140,18 +146,21 @@ public class DatabaseUserRepository implements UserRepository {
                     resultSet.getString("u_image")
             ));
         }
-        return Optional.empty();
+        resultSet.close();
+        return user;
     }
 
     private Optional<Stat> getStatFromResultSet(ResultSet resultSet) throws SQLException {
+        Optional<Stat> stat = Optional.empty();
         if (resultSet.next()) {
-            return Optional.of(new Stat(
+            stat = Optional.of(new Stat(
                     resultSet.getObject("s_u_id", java.util.UUID.class),
                     resultSet.getInt("s_elo"),
                     resultSet.getInt("s_wins"),
                     resultSet.getInt("s_losses")
             ));
         }
-        return Optional.empty();
+        resultSet.close();
+        return stat;
     }
 }
