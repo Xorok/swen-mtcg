@@ -1,14 +1,18 @@
 package at.technikum.apps.mtcg.dto;
 
-public class StatOutDto {
-    private String username;
-    private String name;
-    private int elo;
-    private int wins;
-    private int losses;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public StatOutDto() {
-    }
+public class StatOutDto {
+    @JsonProperty(value = "Username")
+    private String username;
+    @JsonProperty(value = "Name")
+    private String name;
+    @JsonProperty(value = "Elo")
+    private int elo;
+    @JsonProperty(value = "Wins")
+    private int wins;
+    @JsonProperty(value = "Losses")
+    private int losses;
 
     public StatOutDto(String username, String name, int elo, int wins, int losses) {
         this.username = username;

@@ -70,6 +70,10 @@ public class Injector {
         StatService statService = new StatService(userRepository, statConverter);
         controllerList.add(new StatController(statService, sessionService, inputValidator, httpUtils));
 
+        // Scoreboard: /scoreboard
+        ScoreboardService scoreboardService = new ScoreboardService(userRepository);
+        controllerList.add(new ScoreboardController(scoreboardService, sessionService, inputValidator, httpUtils));
+
         return controllerList;
     }
 }

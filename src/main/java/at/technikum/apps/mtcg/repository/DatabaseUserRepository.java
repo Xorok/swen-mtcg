@@ -1,6 +1,7 @@
 package at.technikum.apps.mtcg.repository;
 
 import at.technikum.apps.mtcg.data.Database;
+import at.technikum.apps.mtcg.dto.StatOutDto;
 import at.technikum.apps.mtcg.entity.Stat;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +23,11 @@ public class DatabaseUserRepository implements UserRepository {
     private static final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
     private static final String UPDATE_USER_SQL = "UPDATE u_user SET u_name = ?, u_bio = ?, u_image = ? WHERE u_id = ?::uuid;";
     private static final String FIND_STAT_SQL = "SELECT * FROM s_stat WHERE s_u_id = ?::uuid;";
-
+    private static final String GET_SCOREBOARD_SQL = "SELECT s_elo, s_wins, s_losses, u_username, u_name " +
+            "FROM s_stat " +
+            "INNER JOIN u_user ON s_u_id = u_id " +
+            "ORDER BY s_elo, u_username " +
+            "LIMIT 10;";
     private final Database database;
 
     public DatabaseUserRepository(Database database) {
@@ -132,6 +139,20 @@ public class DatabaseUserRepository implements UserRepository {
         }
     }
 
+    @Override
+    public List<StatOutDto> getScoreboard() throws InternalServerException {
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(GET_SCOREBOARD_SQL)
+        ) {
+            ResultSet resultSet = pstmt.executeQuery();
+            return getScoreboardFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred while trying to get the statistics!");
+        }
+    }
+
     private Optional<User> getUserFromResultSet(ResultSet resultSet) throws SQLException {
         Optional<User> user = Optional.empty();
         if (resultSet.next()) {
@@ -162,5 +183,20 @@ public class DatabaseUserRepository implements UserRepository {
         }
         resultSet.close();
         return stat;
+    }
+
+    private List<StatOutDto> getScoreboardFromResultSet(ResultSet resultSet) throws SQLException {
+        List<StatOutDto> stats = new ArrayList<>();
+        while (resultSet.next()) {
+            stats.add(new StatOutDto(
+                    resultSet.getString("u_username"),
+                    resultSet.getString("u_name"),
+                    resultSet.getInt("s_elo"),
+                    resultSet.getInt("s_wins"),
+                    resultSet.getInt("s_losses")
+            ));
+        }
+        resultSet.close();
+        return stats;
     }
 }

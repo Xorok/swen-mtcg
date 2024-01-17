@@ -49,7 +49,7 @@ public class TransactionController extends Controller {
         Optional<User> userOptional = sessionService
                 .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
         if (userOptional.isEmpty()) {
-            return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
+            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
         }
         User user = userOptional.get();
 

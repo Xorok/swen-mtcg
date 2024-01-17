@@ -3,25 +3,25 @@ package at.technikum.apps.mtcg.controller;
 import at.technikum.apps.mtcg.dto.StatOutDto;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.exception.StatNotFoundException;
+import at.technikum.apps.mtcg.service.ScoreboardService;
 import at.technikum.apps.mtcg.service.SessionService;
-import at.technikum.apps.mtcg.service.StatService;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.server.http.HttpStatus;
 import at.technikum.server.http.Request;
 import at.technikum.server.http.Response;
 
+import java.util.List;
 import java.util.Optional;
 
-public class StatController extends Controller {
-    private final StatService statService;
+public class ScoreboardController extends Controller {
+    private final ScoreboardService scoreboardService;
     private final SessionService sessionService;
     private final InputValidator inputValidator;
     private final HttpUtils httpUtils;
 
-    public StatController(StatService statService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
-        this.statService = statService;
+    public ScoreboardController(ScoreboardService scoreboardService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
+        this.scoreboardService = scoreboardService;
         this.sessionService = sessionService;
         this.inputValidator = inputValidator;
         this.httpUtils = httpUtils;
@@ -29,18 +29,18 @@ public class StatController extends Controller {
 
     @Override
     public boolean supports(String route) {
-        return route.equals("/stats");
+        return route.equals("/scoreboard");
     }
 
     @Override
     public Response handle(Request request) {
         return switch (request.getMethod()) {
-            case "GET" -> getStat(request);
+            case "GET" -> getScoreboard(request);
             default -> status(HttpStatus.METHOD_NOT_ALLOWED);
         };
     }
 
-    public Response getStat(Request request) {
+    public Response getScoreboard(Request request) {
         if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
             return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
         }
@@ -51,10 +51,10 @@ public class StatController extends Controller {
             return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
         }
 
-        StatOutDto statOutDto;
+        List<StatOutDto> statOutDto;
         try {
-            statOutDto = statService.getStat(user.get());
-        } catch (StatNotFoundException | InternalServerException e) {
+            statOutDto = scoreboardService.getScoreboard();
+        } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

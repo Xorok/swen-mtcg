@@ -48,7 +48,7 @@ public class CardController extends Controller {
         Optional<User> user = sessionService
                 .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
         if (user.isEmpty()) {
-            return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
+            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
         }
 
         List<Card> cards;

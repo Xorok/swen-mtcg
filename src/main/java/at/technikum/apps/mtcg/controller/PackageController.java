@@ -57,7 +57,7 @@ public class PackageController extends Controller {
         Optional<User> user = sessionService
                 .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
         if (user.isEmpty()) {
-            return status(HttpStatus.UNAUTHORIZED, "User is not logged in!");
+            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
         } else if (!userService.isAdmin(user.get())) {
             return status(HttpStatus.FORBIDDEN, "User does not have admin rights!");
         }
