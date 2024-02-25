@@ -13,7 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RequestHandler implements Runnable {
-
     private BufferedReader in;
     private PrintWriter out;
 
@@ -56,7 +55,7 @@ public class RequestHandler implements Runnable {
         StringBuilder builder = new StringBuilder();
 
         String inputLine;
-        while ((inputLine = in.readLine()) != null && !inputLine.equals("")) {
+        while ((inputLine = in.readLine()) != null && !inputLine.isEmpty()) {
             builder
                     .append(inputLine)
                     .append(System.lineSeparator());
@@ -80,6 +79,4 @@ public class RequestHandler implements Runnable {
 
         return builder.toString();
     }
-
-
 }

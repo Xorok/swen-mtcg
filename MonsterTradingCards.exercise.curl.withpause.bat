@@ -251,9 +251,19 @@ pause
 
 REM --------------------------------------------------
 echo 17) battle
-start /b "kienboec battle" curl -i -X POST http://localhost:10001/battles --header "Authorization: Bearer kienboec-mtcgToken"
-start /b "altenhof battle" curl -i -X POST http://localhost:10001/battles --header "Authorization: Bearer altenhof-mtcgToken"
-ping localhost -n 10 >NUL 2>NUL
+start /b "kienboec battle" curl -i -s -X POST http://localhost:10001/battles --header "Authorization: Bearer kienboec-mtcgToken" > client1_tmp.txt
+start /b "altenhof battle" curl -i -s -X POST http://localhost:10001/battles --header "Authorization: Bearer altenhof-mtcgToken" > client2_tmp.txt
+timeout /t 2 > NUL
+
+echo kienboec response:
+type client1_tmp.txt
+echo.
+echo altenhof response:
+type client2_tmp.txt
+echo.
+
+del client1_tmp.txt
+del client2_tmp.txt
 
 pause
 

@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class Server {
 
+    private static final int PORT = 10001;
     private ServerSocket server;
 
     private final ServerApplication app;
@@ -16,12 +17,12 @@ public class Server {
 
     public void start() {
         try {
-            server = new ServerSocket(10001);
+            server = new ServerSocket(PORT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Server started on http://localhost:10001");
+        System.out.println("Server started on http://localhost:" + PORT);
 
         while (true) {
             try {

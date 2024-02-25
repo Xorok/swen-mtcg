@@ -17,7 +17,7 @@ public class CardInDtoToCardConverter implements InConverter<CardInDto, Card> {
 
     @Override
     public Card convert(CardInDto newCard) throws InvalidCardException {
-        if (!inputValidator.cardId(newCard.getId())) {
+        if (!inputValidator.uuid(newCard.getId())) {
             throw new InvalidCardException("The card id \"" + newCard.getId() + "\" is invalid!");
         }
 

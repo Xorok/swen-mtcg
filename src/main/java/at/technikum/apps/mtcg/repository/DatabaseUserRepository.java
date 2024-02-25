@@ -5,6 +5,8 @@ import at.technikum.apps.mtcg.dto.StatOutDto;
 import at.technikum.apps.mtcg.entity.Stat;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.InternalServerException;
+import at.technikum.apps.mtcg.exception.StatNotFoundException;
+import at.technikum.apps.mtcg.exception.UserNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,14 +21,15 @@ public class DatabaseUserRepository implements UserRepository {
 
     private static final String CREATE_USER_SQL = "INSERT INTO u_user(u_id, u_username, u_pass_hash, u_pass_salt, u_coins) VALUES(?::uuid, ?, ?, ?::bytea, ?);";
     private static final String CREATE_STAT_SQL = "INSERT INTO s_stat(s_u_id, s_elo, s_wins, s_losses) VALUES(?::uuid, ?, ?, ?);";
-    private static final String FIND_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
-    private static final String FIND_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
+    private static final String FIND_USER_BY_USERNAME_SQL = "SELECT * FROM u_user WHERE u_username = ?;";
+    private static final String FIND_USER_BY_USERID_SQL = "SELECT * FROM u_user WHERE u_id = ?::uuid;";
     private static final String UPDATE_USER_SQL = "UPDATE u_user SET u_name = ?, u_bio = ?, u_image = ? WHERE u_id = ?::uuid;";
     private static final String FIND_STAT_SQL = "SELECT * FROM s_stat WHERE s_u_id = ?::uuid;";
+    private static final String UPDATE_STAT_SQL = "UPDATE s_stat SET s_elo = ?, s_wins = ?, s_losses = ? WHERE s_u_id = ?::uuid;";
     private static final String GET_SCOREBOARD_SQL = "SELECT s_elo, s_wins, s_losses, u_username, u_name " +
             "FROM s_stat " +
             "INNER JOIN u_user ON s_u_id = u_id " +
-            "ORDER BY s_elo, u_username " +
+            "ORDER BY s_elo DESC, u_username ASC " +
             "LIMIT 10;";
     private final Database database;
 
@@ -73,7 +76,7 @@ public class DatabaseUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(User user) throws InternalServerException {
+    public User update(User user) throws UserNotFoundException, InternalServerException {
         try (
                 Connection con = database.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(UPDATE_USER_SQL)
@@ -83,19 +86,21 @@ public class DatabaseUserRepository implements UserRepository {
             pstmt.setString(3, user.getImage());
             pstmt.setObject(4, user.getUserId());
 
-            pstmt.execute();
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 1) return user;
+            else throw new UserNotFoundException("The user could not be found!");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred during user update!");
         }
-        return user;
     }
 
     @Override
     public Optional<User> find(String username) throws InternalServerException {
         try (
                 Connection con = database.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(FIND_USERNAME_SQL)
+                PreparedStatement pstmt = con.prepareStatement(FIND_USER_BY_USERNAME_SQL)
         ) {
             pstmt.setString(1, username);
 
@@ -111,7 +116,7 @@ public class DatabaseUserRepository implements UserRepository {
     public Optional<User> find(UUID userId) throws InternalServerException {
         try (
                 Connection con = database.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(FIND_USERID_SQL)
+                PreparedStatement pstmt = con.prepareStatement(FIND_USER_BY_USERID_SQL)
         ) {
             pstmt.setObject(1, userId);
 
@@ -136,6 +141,26 @@ public class DatabaseUserRepository implements UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred while trying to get the statistics!");
+        }
+    }
+
+    @Override
+    public Stat setStat(UUID userId, Stat stat) throws StatNotFoundException, InternalServerException {
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(UPDATE_STAT_SQL)
+        ) {
+            pstmt.setObject(1, stat.getElo());
+            pstmt.setObject(2, stat.getWins());
+            pstmt.setObject(3, stat.getLosses());
+            pstmt.setObject(4, stat.getUserId());
+
+            int updatedRows = pstmt.executeUpdate();
+            if (updatedRows == 1) return stat;
+            else throw new StatNotFoundException("The statistics for the user could not be found!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred while trying to update the statistics!");
         }
     }
 

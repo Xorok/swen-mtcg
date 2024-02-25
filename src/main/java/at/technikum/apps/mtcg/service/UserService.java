@@ -88,7 +88,7 @@ public class UserService {
         return userConverter.convert(user.get());
     }
 
-    public void updateUserData(User user, UserInDto newUserDetails) throws InternalServerException {
+    public void updateUserData(User user, UserInDto newUserDetails) throws UserNotFoundException, InternalServerException {
         user.setName(newUserDetails.getName());
         user.setBio(newUserDetails.getBio());
         user.setImage(newUserDetails.getImage());

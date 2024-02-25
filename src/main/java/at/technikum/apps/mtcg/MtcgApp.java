@@ -21,7 +21,6 @@ public class MtcgApp implements ServerApplication {
 
     @Override
     public Response handle(Request request) {
-
         for (Controller controller : controllers) {
             if (!controller.supports(request.getRoute())) {
                 continue;

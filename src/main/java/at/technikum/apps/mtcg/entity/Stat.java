@@ -55,6 +55,16 @@ public class Stat {
         this.losses = losses;
     }
 
+    public void registerWin() {
+        wins++;
+        elo += 3;
+    }
+
+    public void registerLoss() {
+        losses++;
+        elo -= 5;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

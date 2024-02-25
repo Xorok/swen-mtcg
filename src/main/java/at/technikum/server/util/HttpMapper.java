@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 // THOUGHT: Maybe divide the HttpMatter into two classes (single responsibility)
 // THOUGHT: Dont use static methods (non-static is better for testing)
 public class HttpMapper {
-
     public static Request toRequestObject(String httpRequest) {
         Request request = new Request();
 

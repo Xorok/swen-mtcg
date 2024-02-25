@@ -12,6 +12,7 @@ public class User {
     private String name;
     private String bio;
     private String image;
+    private String lastBattleLog;
 
     public User(UUID userId, String username, String passwordHash, byte[] passwordSalt) {
         this.userId = userId;
@@ -94,6 +95,14 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLastBattleLog() {
+        return lastBattleLog;
+    }
+
+    public void setLastBattleLog(String lastBattleLog) {
+        this.lastBattleLog = lastBattleLog;
     }
 
     @Override

@@ -51,6 +51,20 @@ public class Card {
                 default -> throw new RuntimeException("No Element mapping for \"" + value + "\"!");
             };
         }
+
+        public static Double getEffectiveness(Element e1, Element e2) {
+            if (e1 == WATER) {
+                if (e2 == FIRE) return 2.0;
+                if (e2 == NORMAL) return 0.5;
+            } else if (e1 == FIRE) {
+                if (e2 == NORMAL) return 2.0;
+                if (e2 == WATER) return 0.5;
+            } else if (e1 == NORMAL) {
+                if (e2 == WATER) return 2.0;
+                if (e2 == FIRE) return 0.5;
+            }
+            return 1.0;
+        }
     }
 
     private UUID id;

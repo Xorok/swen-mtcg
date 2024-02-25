@@ -136,10 +136,11 @@ public class UserController extends Controller {
 
         try {
             userService.updateUserData(user, newUserDetails);
-        } catch (InternalServerException e) {
+        } catch (UserNotFoundException | InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+
         return status(HttpStatus.OK, "User sucessfully updated!");
     }
 }

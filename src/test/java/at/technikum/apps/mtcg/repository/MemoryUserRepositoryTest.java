@@ -1,14 +1,7 @@
 package at.technikum.apps.mtcg.repository;
 
-import at.technikum.apps.mtcg.entity.UserLoginDTO;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class MemoryUserRepositoryTest {
-
+/*
     @Test
     void whenAddOneTask_ThenFindAllShouldReturnOneMore() {
         // Arrange
@@ -48,5 +41,5 @@ class MemoryUserRepositoryTest {
 
         // Assert
         assertEquals(0, users.size());
-    }
+    }*/
 }

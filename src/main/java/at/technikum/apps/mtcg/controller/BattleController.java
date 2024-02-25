@@ -1,11 +1,11 @@
 package at.technikum.apps.mtcg.controller;
 
 import at.technikum.apps.mtcg.entity.User;
+import at.technikum.apps.mtcg.exception.DuplicateUserEntryException;
 import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
-import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
+import at.technikum.apps.mtcg.exception.NoDeckDefinedException;
+import at.technikum.apps.mtcg.service.BattleService;
 import at.technikum.apps.mtcg.service.SessionService;
-import at.technikum.apps.mtcg.service.TransactionService;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.server.http.HttpStatus;
@@ -14,14 +14,14 @@ import at.technikum.server.http.Response;
 
 import java.util.Optional;
 
-public class TransactionController extends Controller {
-    private final TransactionService transactionService;
+public class BattleController extends Controller {
+    private final BattleService battleService;
     private final SessionService sessionService;
     private final InputValidator inputValidator;
     private final HttpUtils httpUtils;
 
-    public TransactionController(TransactionService transactionService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
-        this.transactionService = transactionService;
+    public BattleController(BattleService battleService, SessionService sessionService, InputValidator inputValidator, HttpUtils httpUtils) {
+        this.battleService = battleService;
         this.sessionService = sessionService;
         this.inputValidator = inputValidator;
         this.httpUtils = httpUtils;
@@ -29,18 +29,18 @@ public class TransactionController extends Controller {
 
     @Override
     public boolean supports(String route) {
-        return route.equals("/transactions/packages");
+        return route.equals("/battles");
     }
 
     @Override
     public Response handle(Request request) {
         return switch (request.getMethod()) {
-            case "POST" -> acquirePackage(request);
+            case "POST" -> enterBattle(request);
             default -> status(HttpStatus.METHOD_NOT_ALLOWED);
         };
     }
 
-    public Response acquirePackage(Request request) {
+    public Response enterBattle(Request request) {
         if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
             return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
         }
@@ -50,21 +50,18 @@ public class TransactionController extends Controller {
         if (userOptional.isEmpty()) {
             return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
         }
-        User user = userOptional.get();
 
+        String battleLog;
         try {
-            transactionService.buyPackage(user);
-        } catch (NotEnoughCoinsException e) {
+            battleLog = battleService.enterBattle(userOptional.get());
+        } catch (NoDeckDefinedException | DuplicateUserEntryException e) {
             e.printStackTrace();
             return status(HttpStatus.FORBIDDEN, e.getMessage());
-        } catch (NoPackageAvailableException e) {
-            e.printStackTrace();
-            return status(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
-        return status(HttpStatus.OK, "A package has been successfully bought!");
+        return plain(HttpStatus.OK, battleLog);
     }
 }

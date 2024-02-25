@@ -32,7 +32,7 @@ public class DeckService {
 
         UUID[] cardUuids = new UUID[cardIds.length];
         for (int i = 0; i < cardIds.length; i++) {
-            if (!inputValidator.cardId(cardIds[i])) {
+            if (!inputValidator.uuid(cardIds[i])) {
                 throw new InvalidCardException("The card \"" + cardIds[i] + "\" is invalid!");
             }
             cardUuids[i] = UUID.fromString(cardIds[i]);

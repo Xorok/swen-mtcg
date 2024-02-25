@@ -13,6 +13,7 @@ import at.technikum.apps.mtcg.service.*;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.apps.mtcg.util.PasswordHashUtils;
+import at.technikum.apps.mtcg.util.RandomUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class Injector {
         InputValidator inputValidator = new InputValidator();
         PasswordHashUtils passwordHashUtils = new PasswordHashUtils();
         HttpUtils httpUtils = new HttpUtils();
+        RandomUtils randomUtils = new RandomUtils();
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Session: /sessions
@@ -73,6 +75,10 @@ public class Injector {
         // Scoreboard: /scoreboard
         ScoreboardService scoreboardService = new ScoreboardService(userRepository);
         controllerList.add(new ScoreboardController(scoreboardService, sessionService, inputValidator, httpUtils));
+
+        // Battle: /battles
+        BattleService battleService = new BattleService(userRepository, cardRepository, randomUtils);
+        controllerList.add(new BattleController(battleService, sessionService, inputValidator, httpUtils));
 
         return controllerList;
     }

@@ -27,13 +27,13 @@ public class InputValidator {
         return authHeader != null && authHeader.matches(AUTH_HEADER_REGEX);
     }
 
-    public boolean cardId(String cardId) {
-        if (cardId == null)
+    public boolean uuid(String uuid) {
+        if (uuid == null)
             return false;
 
         try {
             // See https://stackoverflow.com/questions/20041051/how-to-judge-a-string-is-uuid-type#comment90451879_20043860
-            return UUID.fromString(cardId).toString().equals(cardId);
+            return UUID.fromString(uuid).toString().equals(uuid);
         } catch (Exception e) {
             return false;
         }
