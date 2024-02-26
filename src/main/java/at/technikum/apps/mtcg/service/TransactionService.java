@@ -5,17 +5,14 @@ import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
 import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
 import at.technikum.apps.mtcg.repository.CardRepository;
-import at.technikum.apps.mtcg.repository.UserRepository;
 
 public class TransactionService {
 
     private final CardRepository cardRepository;
-    private final UserRepository userRepository;
     private final SessionService sessionService;
 
-    public TransactionService(CardRepository cardRepository, UserRepository userRepository, SessionService sessionService) {
+    public TransactionService(CardRepository cardRepository, SessionService sessionService) {
         this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
         this.sessionService = sessionService;
     }
 

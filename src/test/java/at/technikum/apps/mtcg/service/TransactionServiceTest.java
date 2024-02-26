@@ -3,7 +3,6 @@ package at.technikum.apps.mtcg.service;
 import at.technikum.apps.mtcg.entity.User;
 import at.technikum.apps.mtcg.exception.NotEnoughCoinsException;
 import at.technikum.apps.mtcg.repository.CardRepository;
-import at.technikum.apps.mtcg.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,11 +18,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
-
     @Mock
     private CardRepository cardRepository;
-    @Mock
-    private UserRepository userRepository;
     @Mock
     private SessionService sessionService;
 
@@ -56,7 +52,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void buyPackage_CheckIfSessionUserGetsUpdated() throws Exception {
+    void buyPackage_CheckIfSessionGetsUpdatedAfterPurchase() throws Exception {
         // Setup
         User userA = new User(
                 UUID.fromString("88ee85f8-a4e9-4887-ad4f-8e254b352ec0"),
@@ -84,6 +80,7 @@ class TransactionServiceTest {
         transactionService.buyPackage(userA);
 
         // Assert
+        verify(cardRepository, times(1)).buyPackage(userA);
         verify(sessionService, times(1)).updateSessionUser(userB);
     }
 }

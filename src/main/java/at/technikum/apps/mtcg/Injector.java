@@ -55,7 +55,7 @@ public class Injector {
         controllerList.add(new PackageController(packageService, sessionService, userService, inputValidator, httpUtils, objectMapper));
 
         // Transaction: /transactions
-        TransactionService transactionService = new TransactionService(cardRepository, userRepository, sessionService);
+        TransactionService transactionService = new TransactionService(cardRepository, sessionService);
         controllerList.add(new TransactionController(transactionService, sessionService, inputValidator, httpUtils));
 
         // Card: /cards

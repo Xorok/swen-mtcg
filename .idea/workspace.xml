@@ -5,28 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/TradeInDtoToTradeConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/TradeInDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Trade.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidElementException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTradeFormatException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTradeRequestException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTypeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/TradeAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/TradeNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseTradeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/TradeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TradeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/CollectionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/controller/DeckControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverterTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/PackageServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/util/InputValidatorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" beforeDir="false" afterPath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/DeckController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/DeckController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/DeckService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/DeckService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/BattleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/BattleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/InputValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/CurlTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/repository/MemoryUserRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/DeckServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/DeckServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/TransactionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/TransactionServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,9 +68,20 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.Main.executor": "Run",
     "Batch.MonsterTradingCards.exercise.curl.withpause.executor": "Run",
+    "JUnit.CardInDtoToCardConverterTest.convert_InvalidCardUuid.executor": "Run",
+    "JUnit.CardInDtoToCardConverterTest.executor": "Run",
+    "JUnit.CurlTest.createUser.executor": "Run",
+    "JUnit.DeckControllerTest.handle_routeDeckPut.executor": "Run",
     "JUnit.DeckServiceTest.executor": "Run",
+    "JUnit.DeckServiceTest.setDeck_Successful.executor": "Run",
+    "JUnit.InputValidatorTest.executor": "Run",
+    "JUnit.InputValidatorTest.password_tests.executor": "Run",
     "JUnit.TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated.executor": "Run",
     "JUnit.TransactionServiceTest.executor": "Run",
+    "JUnit.at.technikum.apps.mtcg.controller.* and 3 more.executor": "Run",
+    "JUnit.at.technikum.apps.mtcg.converter.* and 2 more.executor": "Run",
+    "JUnit.at.technikum.apps.mtcg.service in server-application.executor": "Run",
+    "JUnit.at.technikum.apps.mtcg.util.* and 1 more.executor": "Run",
     "Maven.server-application [clean].executor": "Run",
     "Maven.server-application [compile].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -111,14 +116,14 @@
       <recent name="at.technikum.apps.mctg" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="at.technikum.apps.mtcg.controller" />
+      <recent name="at.technikum.apps.mtcg.converter" />
+      <recent name="at.technikum.apps.mtcg.service" />
       <recent name="at.technikum.apps.mtcg.exception" />
       <recent name="at.technikum.apps.mtcg.repository" />
-      <recent name="at.technikum.apps.mtcg.converter" />
-      <recent name="at.technikum.apps.mtcg.dto" />
-      <recent name="at.technikum.apps.mtcg.service" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.CurlTest.createUser">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="at.technikum.Main" />
       <module name="server-application" />
@@ -132,64 +137,70 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="mtcg_reset_db.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
-      <script-file value="$PROJECT_DIR$/sql/mtcg_reset_db.sql" />
-      <script-mode>FILE</script-mode>
-      <method v="2" />
-    </configuration>
-    <configuration name="DeckServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CurlTest.createUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server-application" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="at.technikum.apps.mtcg.service.*" />
+          <option name="PATTERN" value="at.technikum.apps.mtcg.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="at.technikum.apps.mtcg.service" />
-      <option name="MAIN_CLASS_NAME" value="at.technikum.apps.mtcg.service.DeckServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransactionServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server-application" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="at.technikum.apps.mtcg.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="at.technikum.apps.mtcg.service" />
-      <option name="MAIN_CLASS_NAME" value="at.technikum.apps.mtcg.service.TransactionServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server-application" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="at.technikum.apps.mtcg.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="at.technikum.apps.mtcg.service" />
-      <option name="MAIN_CLASS_NAME" value="at.technikum.apps.mtcg.service.TransactionServiceTest" />
-      <option name="METHOD_NAME" value="buyPackage_CheckIfSessionUserGetsUpdated" />
+      <option name="PACKAGE_NAME" value="at.technikum.apps.mtcg" />
+      <option name="MAIN_CLASS_NAME" value="at.technikum.apps.mtcg.CurlTest" />
+      <option name="METHOD_NAME" value="createUser" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeckControllerTest.handle_routeDeckPut" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server-application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="at.technikum.apps.mtcg.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="at.technikum.apps.mtcg.controller" />
+      <option name="MAIN_CLASS_NAME" value="at.technikum.apps.mtcg.controller.DeckControllerTest" />
+      <option name="METHOD_NAME" value="handle_routeDeckPut" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="at.technikum.apps.mtcg.controller.* and 3 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server-application" />
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="at.technikum.apps.mtcg.controller.*" />
+        <pattern testClass="at.technikum.apps.mtcg.converter.*" />
+        <pattern testClass="at.technikum.apps.mtcg.service.*" />
+        <pattern testClass="at.technikum.apps.mtcg.util.*" />
+      </patterns>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="at.technikum.apps.mtcg.converter.* and 2 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server-application" />
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="at.technikum.apps.mtcg.converter.*" />
+        <pattern testClass="at.technikum.apps.mtcg.service.*" />
+        <pattern testClass="at.technikum.apps.mtcg.util.*" />
+      </patterns>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CurlTest.createUser" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Database Script.mtcg_reset_db.sql" />
-        <item itemvalue="JUnit.DeckServiceTest" />
-        <item itemvalue="JUnit.TransactionServiceTest" />
-        <item itemvalue="JUnit.TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated" />
+        <item itemvalue="JUnit.at.technikum.apps.mtcg.controller.* and 3 more" />
+        <item itemvalue="JUnit.DeckControllerTest.handle_routeDeckPut" />
+        <item itemvalue="JUnit.at.technikum.apps.mtcg.converter.* and 2 more" />
       </list>
     </recent_temporary>
   </component>
@@ -224,7 +235,8 @@
       <workItem from="1705412830758" duration="3066000" />
       <workItem from="1705475920215" duration="9356000" />
       <workItem from="1706173657666" duration="6100000" />
-      <workItem from="1708695057570" duration="50241000" />
+      <workItem from="1708695057570" duration="51393000" />
+      <workItem from="1708959646119" duration="12937000" />
     </task>
     <servers />
   </component>

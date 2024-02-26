@@ -6,12 +6,11 @@ import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCredentialsException;
 import at.technikum.apps.mtcg.exception.SessionAlreadyExistsException;
 import at.technikum.apps.mtcg.repository.UserRepository;
+import at.technikum.apps.mtcg.util.CollectionUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
 import at.technikum.apps.mtcg.util.PasswordHashUtils;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 public class SessionService {
@@ -77,19 +76,10 @@ public class SessionService {
     }
 
     public void updateSessionUser(User user) {
-        String key = getKeyByValue(activeSessions, user);
+        String key = CollectionUtils.getKeyByValue(activeSessions, user);
         if (key != null) {
             activeSessions.put(key, user);
         }
-    }
-
-    private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 
     private String generateToken(User user) {
