@@ -1,5 +1,8 @@
 package at.technikum.apps.mtcg.entity;
 
+import at.technikum.apps.mtcg.exception.InvalidElementException;
+import at.technikum.apps.mtcg.exception.InvalidTypeException;
+
 import java.util.UUID;
 
 public class Card {
@@ -17,12 +20,12 @@ public class Card {
             return value;
         }
 
-        public static Type mapFrom(String value) {
-            value = value.toUpperCase();
+        public static Type mapFrom(String value) throws InvalidTypeException {
+            value = value != null ? value.toUpperCase() : "";
             return switch (value) {
                 case "MONSTER" -> MONSTER;
                 case "SPELL" -> SPELL;
-                default -> throw new RuntimeException("No Type mapping for \"" + value + "\"!");
+                default -> throw new InvalidTypeException("No Type mapping for \"" + value + "\"!");
             };
         }
     }
@@ -42,13 +45,13 @@ public class Card {
             return value;
         }
 
-        public static Element mapFrom(String value) {
-            value = value.toUpperCase();
+        public static Element mapFrom(String value) throws InvalidElementException {
+            value = value != null ? value.toUpperCase() : "";
             return switch (value) {
                 case "WATER" -> WATER;
                 case "FIRE" -> FIRE;
                 case "NORMAL" -> NORMAL;
-                default -> throw new RuntimeException("No Element mapping for \"" + value + "\"!");
+                default -> throw new InvalidElementException("No Element mapping for \"" + value + "\"!");
             };
         }
 

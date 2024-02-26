@@ -3,9 +3,7 @@ package at.technikum.apps.mtcg.repository;
 import at.technikum.apps.mtcg.data.Database;
 import at.technikum.apps.mtcg.entity.Card;
 import at.technikum.apps.mtcg.entity.User;
-import at.technikum.apps.mtcg.exception.DuplicateCardException;
-import at.technikum.apps.mtcg.exception.InternalServerException;
-import at.technikum.apps.mtcg.exception.NoPackageAvailableException;
+import at.technikum.apps.mtcg.exception.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class DatabaseCardRepository implements CardRepository {
@@ -30,15 +29,20 @@ public class DatabaseCardRepository implements CardRepository {
     private static final String SELECT_CARDS_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner " +
             "FROM c_card " +
             "WHERE c_u_owner = ?::uuid;";
+    private static final String GET_CARD_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner " +
+            "FROM c_card " +
+            "WHERE c_id = ?::uuid;";
     private static final String INSERT_DECK_SQL = "INSERT INTO d_deck(d_u_owner, d_c_card) VALUES(?::uuid, ?::uuid)";
     private static final String INSERT_DECK_SQL_MULTIPLE_VALUES = ", (?::uuid, ?::uuid)";
     private static final String SELECT_DECK_SQL = "SELECT c_id, c_name, c_damage, c_ct_type, c_ce_element, c_u_owner " +
             "FROM c_card " +
             "INNER JOIN d_deck ON c_id = d_c_card " +
             "WHERE d_u_owner = ?::uuid;";
-    private static final String USER_OWNS_CARDS_SQL = "SELECT COUNT(*) FROM c_card " +
+    private static final String USER_OWNS_CARDS_SQL_START = "SELECT COUNT(*) FROM c_card " +
             "WHERE c_u_owner = ?::uuid " +
-            "AND c_id in (?::uuid, ?::uuid, ?::uuid, ?::uuid);";
+            "AND c_id in (?::uuid";
+    private static final String USER_OWNS_CARDS_SQL_MULTIPLE_VALUES = ", ?::uuid";
+    private static final String USER_OWNS_CARDS_SQL_END = ");";
 
     private final Database database;
 
@@ -111,6 +115,26 @@ public class DatabaseCardRepository implements CardRepository {
     }
 
     @Override
+    public Optional<Card> getCard(UUID cardId) throws InternalServerException {
+        try (
+                Connection con = database.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(GET_CARD_SQL);
+        ) {
+            pstmt.setObject(1, cardId);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            List<Card> cards = getCardsFromResultSet(resultSet);
+            return cards.isEmpty() ? Optional.empty() : Optional.of(cards.get(0));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A database error occurred while fetching the card!");
+        } catch (InvalidTypeException | InvalidElementException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A data mapping error occurred while fetching the card!");
+        }
+    }
+
+    @Override
     public List<Card> getCards(User user) throws InternalServerException {
         try (
                 Connection con = database.getConnection();
@@ -123,6 +147,9 @@ public class DatabaseCardRepository implements CardRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred while fetching the cards!");
+        } catch (InvalidTypeException | InvalidElementException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A data mapping error occurred while fetching the cards!");
         }
     }
 
@@ -139,6 +166,9 @@ public class DatabaseCardRepository implements CardRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new InternalServerException("A database error occurred while fetching the deck!");
+        } catch (InvalidTypeException | InvalidElementException e) {
+            e.printStackTrace();
+            throw new InternalServerException("A data mapping error occurred while fetching the deck!");
         }
     }
 
@@ -165,15 +195,19 @@ public class DatabaseCardRepository implements CardRepository {
 
     @Override
     public boolean userOwnsCards(User user, UUID[] cardIds) throws InternalServerException {
+        String selectSQL = USER_OWNS_CARDS_SQL_START +
+                USER_OWNS_CARDS_SQL_MULTIPLE_VALUES.repeat(Math.max(0, cardIds.length - 1))
+                + USER_OWNS_CARDS_SQL_END;
         try (
                 Connection con = database.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(USER_OWNS_CARDS_SQL);
+                PreparedStatement pstmt = con.prepareStatement(selectSQL);
         ) {
             pstmt.setObject(1, user.getUserId());
-            pstmt.setObject(2, cardIds[0]);
-            pstmt.setObject(3, cardIds[1]);
-            pstmt.setObject(4, cardIds[2]);
-            pstmt.setObject(5, cardIds[3]);
+
+            for (int i = 0; i < cardIds.length; i++) {
+                pstmt.setObject(i + 2, cardIds[i]);
+            }
+
             ResultSet resultSet = pstmt.executeQuery();
 
             resultSet.next();
@@ -187,7 +221,7 @@ public class DatabaseCardRepository implements CardRepository {
         }
     }
 
-    private List<Card> getCardsFromResultSet(ResultSet resultSet) throws SQLException {
+    private List<Card> getCardsFromResultSet(ResultSet resultSet) throws SQLException, InvalidTypeException, InvalidElementException {
         List<Card> cards = new ArrayList<>();
         while (resultSet.next()) {
             cards.add(new Card(

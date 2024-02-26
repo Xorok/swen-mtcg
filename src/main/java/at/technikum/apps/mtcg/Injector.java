@@ -3,12 +3,10 @@ package at.technikum.apps.mtcg;
 import at.technikum.apps.mtcg.controller.*;
 import at.technikum.apps.mtcg.converter.CardInDtoToCardConverter;
 import at.technikum.apps.mtcg.converter.StatToStatOutDtoConverter;
+import at.technikum.apps.mtcg.converter.TradeInDtoToTradeConverter;
 import at.technikum.apps.mtcg.converter.UserToUserOutDtoConverter;
 import at.technikum.apps.mtcg.data.Database;
-import at.technikum.apps.mtcg.repository.CardRepository;
-import at.technikum.apps.mtcg.repository.DatabaseCardRepository;
-import at.technikum.apps.mtcg.repository.DatabaseUserRepository;
-import at.technikum.apps.mtcg.repository.UserRepository;
+import at.technikum.apps.mtcg.repository.*;
 import at.technikum.apps.mtcg.service.*;
 import at.technikum.apps.mtcg.util.HttpUtils;
 import at.technikum.apps.mtcg.util.InputValidator;
@@ -34,6 +32,7 @@ public class Injector {
         //  * Repositories
         UserRepository userRepository = new DatabaseUserRepository(database);
         CardRepository cardRepository = new DatabaseCardRepository(database);
+        TradeRepository tradeRepository = new DatabaseTradeRepository(database);
         //  * Utilities
         InputValidator inputValidator = new InputValidator();
         PasswordHashUtils passwordHashUtils = new PasswordHashUtils();
@@ -64,7 +63,7 @@ public class Injector {
         controllerList.add(new CardController(cardService, sessionService, inputValidator, httpUtils));
 
         // Deck: /deck
-        DeckService deckService = new DeckService(cardRepository, inputValidator);
+        DeckService deckService = new DeckService(cardRepository, tradeRepository, inputValidator);
         controllerList.add(new DeckController(deckService, sessionService, inputValidator, httpUtils, objectMapper));
 
         // Stat: /stats
@@ -79,6 +78,11 @@ public class Injector {
         // Battle: /battles
         BattleService battleService = new BattleService(userRepository, cardRepository, randomUtils);
         controllerList.add(new BattleController(battleService, sessionService, inputValidator, httpUtils));
+
+        // Battle: /trades
+        TradeInDtoToTradeConverter tradeConverter = new TradeInDtoToTradeConverter(inputValidator);
+        TradeService tradeService = new TradeService(tradeRepository, cardRepository, tradeConverter);
+        controllerList.add(new TradeController(tradeService, sessionService, objectMapper, inputValidator, httpUtils));
 
         return controllerList;
     }

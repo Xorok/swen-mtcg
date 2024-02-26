@@ -45,10 +45,21 @@ public class DeckController extends Controller {
 
     @Override
     public Response handle(Request request) {
+        if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
+            return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
+        }
+
+        Optional<User> userOpt = sessionService
+                .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
+        if (userOpt.isEmpty()) {
+            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
+        }
+        User user = userOpt.get();
+
         if (request.getRoute().equals("/deck")) {
             return switch (request.getMethod()) {
-                case "GET" -> getDeck(request, HttpUtils.ResponseFormat.JSON);
-                case "PUT" -> setDeck(request);
+                case "GET" -> getDeck(request, user, HttpUtils.ResponseFormat.JSON);
+                case "PUT" -> setDeck(request, user);
                 default -> status(HttpStatus.METHOD_NOT_ALLOWED);
             };
         } else {
@@ -62,24 +73,14 @@ public class DeckController extends Controller {
 
             String formatStr = matcher.group(1);
             HttpUtils.ResponseFormat format = HttpUtils.ResponseFormat.mapFrom(formatStr);
-            return getDeck(request, format);
+            return getDeck(request, user, format);
         }
     }
 
-    public Response getDeck(Request request, HttpUtils.ResponseFormat format) {
-        if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
-            return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
-        }
-
-        Optional<User> user = sessionService
-                .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
-        if (user.isEmpty()) {
-            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
-        }
-
+    public Response getDeck(Request request, User user, HttpUtils.ResponseFormat format) {
         List<Card> cards;
         try {
-            cards = deckService.getDeck(user.get());
+            cards = deckService.getDeck(user);
         } catch (InternalServerException e) {
             e.printStackTrace();
             return status(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
@@ -96,17 +97,7 @@ public class DeckController extends Controller {
         };
     }
 
-    public Response setDeck(Request request) {
-        if (!inputValidator.authHeader(request.getAuthorizationHeader())) {
-            return status(HttpStatus.UNAUTHORIZED, "No valid authentication header set!");
-        }
-
-        Optional<User> user = sessionService
-                .checkSessionToken(httpUtils.getTokenFromAuthHeader(request.getAuthorizationHeader()));
-        if (user.isEmpty()) {
-            return status(HttpStatus.UNAUTHORIZED, "No session with this token active!");
-        }
-
+    public Response setDeck(Request request, User user) {
         String[] cardIds;
         try {
             cardIds = objectMapper.readValue(request.getBody(), String[].class);
@@ -116,7 +107,7 @@ public class DeckController extends Controller {
         }
 
         try {
-            deckService.setDeck(user.get(), cardIds);
+            deckService.setDeck(user, cardIds);
         } catch (WrongNumberOfCardsException e) {
             e.printStackTrace();
             return status(HttpStatus.BAD_REQUEST, e.getMessage());

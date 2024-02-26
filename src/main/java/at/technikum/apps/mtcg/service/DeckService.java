@@ -6,6 +6,7 @@ import at.technikum.apps.mtcg.exception.InternalServerException;
 import at.technikum.apps.mtcg.exception.InvalidCardException;
 import at.technikum.apps.mtcg.exception.WrongNumberOfCardsException;
 import at.technikum.apps.mtcg.repository.CardRepository;
+import at.technikum.apps.mtcg.repository.TradeRepository;
 import at.technikum.apps.mtcg.util.InputValidator;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.UUID;
 public class DeckService {
 
     private final CardRepository cardRepository;
+    private final TradeRepository tradeRepository;
     private final InputValidator inputValidator;
 
-    public DeckService(CardRepository cardRepository, InputValidator inputValidator) {
+    public DeckService(CardRepository cardRepository, TradeRepository tradeRepository, InputValidator inputValidator) {
         this.cardRepository = cardRepository;
+        this.tradeRepository = tradeRepository;
         this.inputValidator = inputValidator;
     }
 
@@ -38,10 +41,16 @@ public class DeckService {
             cardUuids[i] = UUID.fromString(cardIds[i]);
         }
 
-        if (cardRepository.userOwnsCards(user, cardUuids)) {
-            cardRepository.setDeck(user, cardUuids);
-        } else {
+        if (!cardRepository.userOwnsCards(user, cardUuids)) {
             throw new InvalidCardException("At least one of the provided cards does not belong to the user or is not available!");
         }
+
+        for (UUID cardId : cardUuids) {
+            if (tradeRepository.tradeExists(cardId)) {
+                throw new InvalidCardException("The card with the ID \"" + cardId.toString() + "\" is currently being offered for trade and is not available!");
+            }
+        }
+
+        cardRepository.setDeck(user, cardUuids);
     }
 }

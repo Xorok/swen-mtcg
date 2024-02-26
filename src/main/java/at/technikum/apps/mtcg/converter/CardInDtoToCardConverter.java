@@ -27,7 +27,7 @@ public class CardInDtoToCardConverter implements InConverter<CardInDto, Card> {
         }
 
         Double damage = newCard.getDamage();
-        if (damage <= 0) {
+        if (damage == null || damage <= 0) {
             throw new InvalidCardException("The card with the ID \"" + newCard.getId() + "\" has the invalid damage " + damage + "!");
         }
 

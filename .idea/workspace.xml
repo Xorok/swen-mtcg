@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="" />
+    <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/TradeInDtoToTradeConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/dto/TradeInDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Trade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidElementException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTradeFormatException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTradeRequestException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/InvalidTypeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/TradeAlreadyExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/exception/TradeNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseTradeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/TradeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TradeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" beforeDir="false" afterPath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/DeckController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/controller/DeckController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/entity/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/CardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseCardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/repository/DatabaseUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/DeckService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/DeckService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,11 +111,11 @@
       <recent name="at.technikum.apps.mctg" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="at.technikum.apps.mtcg.controller" />
       <recent name="at.technikum.apps.mtcg.exception" />
-      <recent name="at.technikum.apps.mtcg.service" />
+      <recent name="at.technikum.apps.mtcg.repository" />
       <recent name="at.technikum.apps.mtcg.converter" />
       <recent name="at.technikum.apps.mtcg.dto" />
+      <recent name="at.technikum.apps.mtcg.service" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -109,8 +132,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="mtcg_create_db.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
-      <script-file value="$PROJECT_DIR$/sql/mtcg_create_db.sql" />
+    <configuration name="mtcg_reset_db.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/sql/mtcg_reset_db.sql" />
       <script-mode>FILE</script-mode>
       <method v="2" />
     </configuration>
@@ -163,10 +186,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Database Script.mtcg_reset_db.sql" />
         <item itemvalue="JUnit.DeckServiceTest" />
         <item itemvalue="JUnit.TransactionServiceTest" />
         <item itemvalue="JUnit.TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated" />
-        <item itemvalue="Database Script.mtcg_create_db.sql" />
       </list>
     </recent_temporary>
   </component>
@@ -201,7 +224,7 @@
       <workItem from="1705412830758" duration="3066000" />
       <workItem from="1705475920215" duration="9356000" />
       <workItem from="1706173657666" duration="6100000" />
-      <workItem from="1708695057570" duration="29726000" />
+      <workItem from="1708695057570" duration="50241000" />
     </task>
     <servers />
   </component>

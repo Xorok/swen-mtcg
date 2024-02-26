@@ -87,7 +87,6 @@ public class DatabaseUserRepository implements UserRepository {
             pstmt.setObject(4, user.getUserId());
 
             int updatedRows = pstmt.executeUpdate();
-
             if (updatedRows == 1) return user;
             else throw new UserNotFoundException("The user could not be found!");
         } catch (SQLException e) {
