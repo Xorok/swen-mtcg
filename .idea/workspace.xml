@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fef858-a139-43ad-b031-7a7e0e340156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/CollectionUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/controller/DeckControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/converter/CardInDtoToCardConverterTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/PackageServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/util/InputValidatorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" beforeDir="false" afterPath="$PROJECT_DIR$/MonsterTradingCards.exercise.curl.withpause.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/Injector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/BattleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/BattleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/SessionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/service/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/technikum/apps/mtcg/util/InputValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/CurlTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/repository/MemoryUserRepositoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/DeckServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/DeckServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/TransactionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/at/technikum/apps/mtcg/service/TransactionServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,50 +49,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Run",
-    "Batch.MonsterTradingCards.exercise.curl.withpause.executor": "Run",
-    "JUnit.CardInDtoToCardConverterTest.convert_InvalidCardUuid.executor": "Run",
-    "JUnit.CardInDtoToCardConverterTest.executor": "Run",
-    "JUnit.CurlTest.createUser.executor": "Run",
-    "JUnit.DeckControllerTest.handle_routeDeckPut.executor": "Run",
-    "JUnit.DeckServiceTest.executor": "Run",
-    "JUnit.DeckServiceTest.setDeck_Successful.executor": "Run",
-    "JUnit.InputValidatorTest.executor": "Run",
-    "JUnit.InputValidatorTest.password_tests.executor": "Run",
-    "JUnit.TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated.executor": "Run",
-    "JUnit.TransactionServiceTest.executor": "Run",
-    "JUnit.at.technikum.apps.mtcg.controller.* and 3 more.executor": "Run",
-    "JUnit.at.technikum.apps.mtcg.converter.* and 2 more.executor": "Run",
-    "JUnit.at.technikum.apps.mtcg.service in server-application.executor": "Run",
-    "JUnit.at.technikum.apps.mtcg.util.* and 1 more.executor": "Run",
-    "Maven.server-application [clean].executor": "Run",
-    "Maven.server-application [compile].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Users/David/Downloads/MTCG-main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "ml.llm.LLMProjectConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Batch.MonsterTradingCards.exercise.curl.withpause.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CardInDtoToCardConverterTest.convert_InvalidCardUuid.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CardInDtoToCardConverterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CurlTest.createUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DeckControllerTest.handle_routeDeckPut.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DeckServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DeckServiceTest.setDeck_Successful.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputValidatorTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputValidatorTest.password_tests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TransactionServiceTest.buyPackage_CheckIfSessionUserGetsUpdated.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TransactionServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.at.technikum.apps.mtcg.controller.* and 3 more.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.at.technikum.apps.mtcg.converter.* and 2 more.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.at.technikum.apps.mtcg.service in server-application.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.at.technikum.apps.mtcg.util.* and 1 more.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.server-application [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.server-application [compile].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/David/Downloads/MTCG-main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMProjectConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Users\David\Documents\IdeaProjects\SWEN1-Semesterprojekt\sql" />
@@ -123,7 +109,7 @@
       <recent name="at.technikum.apps.mtcg.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CurlTest.createUser">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="at.technikum.Main" />
       <module name="server-application" />
@@ -196,8 +182,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CurlTest.createUser" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CurlTest.createUser" />
         <item itemvalue="JUnit.at.technikum.apps.mtcg.controller.* and 3 more" />
         <item itemvalue="JUnit.DeckControllerTest.handle_routeDeckPut" />
         <item itemvalue="JUnit.at.technikum.apps.mtcg.converter.* and 2 more" />

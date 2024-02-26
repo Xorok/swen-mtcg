@@ -153,23 +153,25 @@ public class BattleService {
         Stat stat1 = stat1Opt.get();
         Stat stat2 = stat2Opt.get();
 
+        battleLog.append("\n *** ");
+
         boolean statsChanged = false;
         if (deck1.isEmpty() || (!deck2.isEmpty() && wonRounds2 > wonRounds1)) {
             stat1.registerLoss();
             stat2.registerWin();
             statsChanged = true;
-            battleLog.append("\n").append(" Player 2 ").append(player2.getUsername()).append(" wins the battle! ");
+            battleLog.append("Player 2 ").append(player2.getUsername()).append(" wins the battle!");
         } else if (deck2.isEmpty() || wonRounds1 > wonRounds2) {
             stat2.registerLoss();
             stat1.registerWin();
             statsChanged = true;
-            battleLog.append("\n").append(" Player 1 ").append(player1.getUsername()).append(" wins the battle! ");
+            battleLog.append("Player 1 ").append(player1.getUsername()).append(" wins the battle!");
         } else {
             // In case of a draw, stats are not changed
-            battleLog.append("\n").append(" The battle was a draw! ");
+            battleLog.append("The battle was a draw!");
         }
 
-        battleLog.append(" *** Player 1 won ").append(wonRounds1).append(" rounds, Player 2 won ").append(wonRounds2).append(" rounds. ***\n");
+        battleLog.append(" Player 1 won ").append(wonRounds1).append(" rounds, Player 2 won ").append(wonRounds2).append(" rounds. ***\n");
 
         if (statsChanged) {
             try {
